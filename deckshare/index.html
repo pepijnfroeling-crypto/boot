@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deckshare · Boot delen in de regio</title>
+<meta name="description" content="Vaar je maar een paar keer per jaar? Deel je één boot met twee of drie anderen, dan deel je ook de vaste lasten. Meld je aan als eigenaar of als mede-eigenaar.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Deckshare · Boot delen in de regio">
+<meta property="og:description" content="Eén boot, twee of drie anderen, gedeelde vaste lasten. Meld je aan als eigenaar of als mede-eigenaar.">
+<meta name="theme-color" content="#12263A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312263A'/%3E%3Cpath d='M5 17h22l-4 7H9z' fill='%230F6B63'/%3E%3Ccircle cx='11' cy='11' r='2.5' fill='%23F3F5F4'/%3E%3Ccircle cx='16' cy='10' r='2.5' fill='%23F3F5F4'/%3E%3Ccircle cx='21' cy='11' r='2.5' fill='%23F3F5F4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground: #F3F5F4;
+  --surface: #FFFFFF;
+  --ink: #12263A;
+  --muted: #4B5D69;
+  --line: #D5DDDA;
+  --field: #7D8E98;
+  --accent: #0F6B63;
+  --accent-dark: #0A4F49;
+  --display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
+a { color: var(--ink); }
+a:hover { color: var(--accent-dark); }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+.brand { margin: 0; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.brand-name { font-family: var(--display); font-weight: 700; font-size: 22px; }
+.brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
+.top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding: 56px 64px 56px; display: grid; grid-template-columns: minmax(0, 1fr) 440px; gap: 64px; align-items: start; }
+.content, .side { display: flex; flex-direction: column; }
+.content { gap: 44px; }
+.side { gap: 28px; }
+section { display: flex; flex-direction: column; gap: 18px; }
+
+.eyebrow, .label, .kicker { margin: 0; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; }
+.eyebrow, .kicker { color: var(--accent); }
+.label { color: var(--muted); }
+h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(44px, 5.2vw, 64px); line-height: 1.02; letter-spacing: -0.005em; text-wrap: balance; }
+.lead { margin: 0; font-size: 21px; line-height: 1.5; max-width: 32em; }
+.about { margin: 0; font-size: 17px; color: var(--muted); max-width: 36em; }
+.where { margin: 0; display: flex; align-items: flex-start; gap: 10px; font-size: 16px; }
+.where svg { width: 24px; height: 24px; flex-shrink: 0; }
+.cta { display: none; }
+.icon { fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.way { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 2px solid var(--ink); }
+.way svg { width: 32px; height: 32px; }
+.way h3 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1.1; text-wrap: balance; }
+.way p { margin: 0; font-size: 16px; line-height: 1.5; }
+.way a { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 17px; color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.way a:hover { color: var(--accent-dark); }
+
+.steps { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.steps li { display: flex; flex-direction: column; gap: 6px; }
+.num { font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.steps h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 23px; line-height: 1.2; }
+.steps p { margin: 0; font-size: 16px; line-height: 1.5; }
+
+.card { padding: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 1px 2px rgba(18, 38, 58, 0.06), 0 10px 28px rgba(18, 38, 58, 0.07); scroll-margin-top: 16px; }
+.card h2 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.1; }
+.card .intro { margin: 6px 0 0; font-size: 17px; color: var(--muted); }
+form { display: flex; flex-direction: column; gap: 18px; margin-top: 18px; }
+fieldset { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px; }
+legend { padding: 0; margin-bottom: 10px; font-weight: 700; font-size: 16px; line-height: 1.3; }
+.choice { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 14px; border: 1.5px solid var(--field); border-radius: 6px; font-size: 17px; line-height: 1.35; cursor: pointer; }
+.choice input { width: 20px; height: 20px; margin: 0; flex-shrink: 0; accent-color: var(--accent); }
+.choice:has(input:checked) { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label { font-weight: 700; font-size: 16px; line-height: 1.3; }
+input[type="tel"], input[type="text"], select {
+  width: 100%; height: 52px; padding: 0 14px; font-family: inherit; font-size: 17px; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--field); border-radius: 6px;
+}
+select { padding: 0 12px; }
+input::placeholder { color: #5E6E78; }
+.btn { height: 56px; border: 0; border-radius: 6px; background: var(--accent); color: #FFFFFF; font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: 0.02em; cursor: pointer; }
+.btn:hover { background: var(--accent-dark); }
+.btn[disabled] { opacity: 0.7; cursor: wait; }
+.privacy { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.thanks { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.thanks p { margin: 0; }
+.thanks .big { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1.15; }
+.error { margin: 0; font-size: 16px; color: #8E3812; font-weight: 700; }
+
+.foot { background: var(--surface); border-top: 1px solid var(--line); }
+.foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+@media (max-width: 960px) {
+  body { font-size: 17px; }
+  .top-inner { padding: 14px 20px; }
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 28px 20px 40px; }
+  .content { gap: 40px; }
+  .lead { font-size: 19px; }
+  .about { font-size: 16px; }
+  .cta { display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 6px; background: var(--accent); color: #FFFFFF; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: 0.02em; }
+  .cta:hover { color: #FFFFFF; background: var(--accent-dark); }
+  .ways { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .way h3 { font-size: 26px; }
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .card { padding: 24px; }
+  .foot-inner { padding: 18px 20px; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <p class="brand"><span class="brand-name">Deckshare</span><span class="brand-sub">door Pepijn, student aan Avans Hogeschool</span></p>
+    <p class="top-call">Liever zelf bellen? <a href="tel:+31612809664">06 12 80 96 64</a></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="content">
+
+    <section>
+      <p class="eyebrow">Nieuw · op zoek naar de eerste deelnemers</p>
+      <h1>Boot delen in de regio</h1>
+      <p class="lead">Vaar je maar een paar keer per jaar? Liggeld, stalling, verzekering en onderhoud lopen toch door. Deel je één boot met twee of drie anderen, dan deel je ook die vaste lasten.</p>
+      <p class="about">Ik ben Pepijn, booteigenaar. De afgelopen weken heb ik tientallen booteigenaren gesproken en ondervraagd. Meerdere van hen varen minder dan ze zouden willen, terwijl de kosten gewoon doorlopen. Daarom start ik Deckshare en onderzoek ik of er animo is om samen een boot te delen. Er is nog geen gedeelde boot, en ik verhuur of verkoop niets.</p>
+      <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true" style="stroke-width: 2"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren en mensen die graag varen, in heel Nederland.</span></p>
+      <a class="cta" href="#aanmelden">Meld je aan</a>
+    </section>
+
+    <section>
+      <h2 class="label">Meedoen kan op twee manieren</h2>
+      <div class="ways">
+        <div class="way">
+          <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 18h26l-4 6H8z"></path><path d="M9 18v-5h9l3 5"></path><path d="M3 28.5c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"></path></svg>
+          <p class="kicker">Ik heb een boot</p>
+          <h3>en wil de kosten delen</h3>
+          <p>Twee of drie anderen varen mee en betalen mee aan de vaste lasten en het onderhoud.</p>
+          <a href="#aanmelden" data-rol="rol-eigenaar">Aanmelden als eigenaar</a>
+        </div>
+        <div class="way">
+          <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="9" r="3.5"></circle><path d="M9.5 24c0-4.5 3-7 6.5-7s6.5 2.5 6.5 7"></path><circle cx="7" cy="12" r="2.8"></circle><path d="M2.5 24c0-3.6 2-5.8 4.5-5.8 1.2 0 2.3.4 3.1 1.2"></path><circle cx="25" cy="12" r="2.8"></circle><path d="M29.5 24c0-3.6-2-5.8-4.5-5.8-1.2 0-2.3.4-3.1 1.2"></path></svg>
+          <p class="kicker">Ik heb geen boot</p>
+          <h3>en wil mede-eigenaar worden</h3>
+          <p>Je vaart graag, maar een eigen boot is te duur voor de keren dat je gaat. Samen met een paar anderen deel je één boot en de kosten.</p>
+          <a href="#aanmelden" data-rol="rol-mede">Aanmelden als mede-eigenaar</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="label">Hoe het verder gaat</h2>
+      <ol class="steps">
+        <li><span class="num">1</span><h3>Je meldt je aan</h3><p>Als eigenaar of als mede-eigenaar, met je telefoonnummer.</p></li>
+        <li><span class="num">2</span><h3>Ik bel je</h3><p>Voor een kort gesprek: wat voor boot, waar, en hoe vaak je wilt varen.</p></li>
+        <li><span class="num">3</span><h3>Past het, dan hoor je het</h3><p>Melden zich mensen die bij elkaar passen, dan leg ik jullie dat voor. Ik beloof niets: of er een gedeelde boot komt, hangt af van wie zich aanmeldt.</p></li>
+      </ol>
+    </section>
+
+  </div>
+
+  <aside class="side">
+    <section class="card" id="aanmelden" aria-labelledby="formtitel">
+      <h2 id="formtitel">Meld je aan</h2>
+      <p class="intro">Ik bel je binnen twee werkdagen terug.</p>
+      <form id="aanmeldform" novalidate>
+        <fieldset>
+          <legend>Wat past bij jou?</legend>
+          <label class="choice" for="rol-eigenaar"><input id="rol-eigenaar" name="entry.1600797824" type="radio" value="Ik heb een boot en wil de kosten delen" required>Ik heb een boot en wil de kosten delen</label>
+          <label class="choice" for="rol-mede"><input id="rol-mede" name="entry.1600797824" type="radio" value="Ik wil mede-eigenaar worden">Ik wil mede-eigenaar worden</label>
+        </fieldset>
+        <div class="field">
+          <label for="tel">Telefoonnummer</label>
+          <input id="tel" name="entry.2139532739" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 …" required>
+        </div>
+        <div class="field">
+          <label for="plek">Waar ligt je boot, of waar wil je varen?</label>
+          <input id="plek" name="entry.1916438238" type="text" placeholder="Plaats of vaarwater" required>
+        </div>
+        <div class="field">
+          <label for="kanaal">Hoe kwam je op deze pagina?</label>
+          <select id="kanaal" name="entry.42386186" required>
+            <option value="">Kies een antwoord</option>
+            <option>Marktplaats</option>
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>TikTok</option>
+            <option>Een andere advertentie op internet</option>
+            <option>Briefje bij een haven, stalling of camping</option>
+            <option>Via een bedrijf</option>
+            <option>Via iemand die ik ken</option>
+            <option>Anders</option>
+          </select>
+        </div>
+        <button class="btn" type="submit">Meld mij aan</button>
+        <p class="error" id="fout" role="alert" hidden></p>
+        <p class="privacy">Ik gebruik je nummer alleen om je terug te bellen. Doe je niet mee, dan wis ik het weer.</p>
+      </form>
+      <div class="thanks" id="bedankt" role="status" hidden>
+        <p class="big">Dank je, je aanmelding is verstuurd.</p>
+        <p>Ik bel je binnen twee werkdagen terug.</p>
+        <p class="privacy">Geen telefoontje gehad? Bel of app me: <a href="tel:+31612809664">06 12 80 96 64</a></p>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <span>Deckshare · door Pepijn, student aan Avans Hogeschool</span>
+    <span>Nieuw · najaar 2026</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdV_2XIn6QpDlSXjEonguH2-1tyqoaH1Z46P3vGlKuYomfMBA/formResponse';
+  var TEL_OK = /^\+?[0-9 ()-]{10,16}$/;
+  var form = document.getElementById('aanmeldform');
+  var tel = document.getElementById('tel');
+  var fout = document.getElementById('fout');
+  var bedankt = document.getElementById('bedankt');
+  var knop = form.querySelector('button[type="submit"]');
+
+  document.querySelectorAll('a[data-rol]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var keuze = document.getElementById(link.getAttribute('data-rol'));
+      if (keuze) keuze.checked = true;
+    });
+  });
+
+  tel.addEventListener('input', function () { tel.setCustomValidity(''); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    fout.hidden = true;
+    tel.value = tel.value.trim();
+    tel.setCustomValidity(TEL_OK.test(tel.value) ? '' : 'Vul een telefoonnummer in, bijvoorbeeld 06 12 34 56 78.');
+    if (!form.reportValidity()) return;
+
+    var data = new URLSearchParams(new FormData(form));
+    data.append('fvv', '1');
+    data.append('pageHistory', '0');
+    knop.disabled = true;
+    knop.textContent = 'Versturen…';
+
+    fetch(ACTION, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function () {
+        form.hidden = true;
+        bedankt.hidden = false;
+        bedankt.scrollIntoView({ block: 'center' });
+      })
+      .catch(function () {
+        knop.disabled = false;
+        knop.textContent = 'Meld mij aan';
+        fout.textContent = 'Versturen lukte niet. Probeer het nog eens, of bel of app me: 06 12 80 96 64.';
+        fout.hidden = false;
+      });
+  });
+})();
+</script>
+</body>
+</html>
