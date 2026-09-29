@@ -28,6 +28,7 @@
   --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
@@ -208,7 +209,7 @@ input::placeholder { color: #5E6E78; }
         <p class="error" id="fout" role="alert" hidden></p>
         <p class="privacy">Ik gebruik je nummer alleen om je terug te bellen. Doe je niet mee, dan wis ik het weer.</p>
       </form>
-      <div class="thanks" id="bedankt" role="status" hidden>
+      <div class="thanks" id="bedankt" role="status" tabindex="-1" hidden>
         <p class="big">Dank je, je aanmelding is verstuurd.</p>
         <p>Ik bel je binnen twee werkdagen terug.</p>
         <p class="privacy">Geen telefoontje gehad? Bel of app me: <a href="tel:+31612809664">06 12 80 96 64</a></p>
@@ -233,6 +234,8 @@ input::placeholder { color: #5E6E78; }
   var fout = document.getElementById('fout');
   var bedankt = document.getElementById('bedankt');
   var knop = form.querySelector('button[type="submit"]');
+  var knopTekst = knop.textContent;
+  var WACHTTIJD = 12000;
 
   document.querySelectorAll('a[data-rol]').forEach(function (link) {
     link.addEventListener('click', function () {
@@ -245,6 +248,7 @@ input::placeholder { color: #5E6E78; }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (knop.disabled) return;
     fout.hidden = true;
     tel.value = tel.value.trim();
     tel.setCustomValidity(TEL_OK.test(tel.value) ? '' : 'Vul een telefoonnummer in, bijvoorbeeld 06 12 34 56 78.');
@@ -256,15 +260,32 @@ input::placeholder { color: #5E6E78; }
     knop.disabled = true;
     knop.textContent = 'Versturen…';
 
+    var afgerond = false;
+    var timer = setTimeout(function () {
+      timer = null;
+      if (afgerond) return;
+      knop.disabled = false;
+      knop.textContent = knopTekst;
+      fout.textContent = 'Ik krijg geen bevestiging van het formulier. Je aanmelding is mogelijk toch aangekomen; bel of app me om het zeker te weten: 06 12 80 96 64.';
+      fout.hidden = false;
+    }, WACHTTIJD);
+
     fetch(ACTION, { method: 'POST', mode: 'no-cors', body: data })
       .then(function () {
+        afgerond = true;
+        if (timer) { clearTimeout(timer); timer = null; }
+        fout.hidden = true;
         form.hidden = true;
         bedankt.hidden = false;
         bedankt.scrollIntoView({ block: 'center' });
+        bedankt.focus({ preventScroll: true });
       })
       .catch(function () {
+        if (afgerond) return;
+        afgerond = true;
+        if (timer) { clearTimeout(timer); timer = null; }
         knop.disabled = false;
-        knop.textContent = 'Meld mij aan';
+        knop.textContent = knopTekst;
         fout.textContent = 'Versturen lukte niet. Probeer het nog eens, of bel of app me: 06 12 80 96 64.';
         fout.hidden = false;
       });
