@@ -42,7 +42,7 @@ a:hover { color: var(--ink-deep); }
 .top { background: var(--ground); border-bottom: 1px solid var(--line); }
 .top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
 .brand { margin: 0; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; }
+.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
 .brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
 .top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
 
@@ -144,7 +144,7 @@ input::placeholder { color: var(--muted); }
 
 <header class="top">
   <div class="top-inner">
-    <p class="brand"><span class="brand-name">Pepijn</span><span class="brand-sub">booteigenaar</span></p>
+    <p class="brand"><a class="brand-name" href="/">Deckshare</a><span class="brand-sub">door Pepijn, booteigenaar</span></p>
     <p class="top-call">Liever zelf bellen? <a href="tel:+31612809664">06 12 80 96 64</a></p>
   </div>
 </header>
