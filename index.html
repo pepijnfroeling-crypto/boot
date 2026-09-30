@@ -10,28 +10,22 @@
 <meta property="og:title" content="Deckshare · Voor wie een boot heeft, of er een wil delen">
 <meta property="og:description" content="Je boot de winter in met één aanspreekpunt, of een boot delen met een paar anderen. Kies wat bij je past.">
 <meta property="og:image" content="https://deckshare.nl/beeld/hero.jpg">
-<meta name="theme-color" content="#12263A">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312263A'/%3E%3Cpath d='M5 17h22l-4 7H9z' fill='%230F6B63'/%3E%3Ccircle cx='11' cy='11' r='2.5' fill='%23F3F5F4'/%3E%3Ccircle cx='16' cy='10' r='2.5' fill='%23F3F5F4'/%3E%3Ccircle cx='21' cy='11' r='2.5' fill='%23F3F5F4'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#F5F2EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Saira:wdth,wght@125,500;125,600&display=swap">
 <style>
 :root {
   color-scheme: light;
-  --ground: #F3F5F4;
+  --ground: #F5F2EA;
   --surface: #FFFFFF;
-  --ink: #12263A;
-  --muted: #4B5D69;
-  --line: #D5DDDA;
-  --field: #7D8E98;
-  --rust: #B3471A;
-  --rust-dark: #8E3812;
-  --teal: #0F6B63;
-  --teal-dark: #0A4F49;
-  --accent: var(--ink);
-  --accent-dark: var(--teal-dark);
-  --scrim: rgba(18, 38, 58, 0.72);
-  --display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --ink: #1E3A2F;
+  --ink-deep: #113728;
+  --muted: #5B645D;
+  --line: #DDD6C6;
+  --tint: #B7D3C2;
+  --display: 'Saira', 'Arial', sans-serif;
   --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
@@ -39,90 +33,86 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
 a { color: var(--ink); }
-a:hover { color: var(--accent-dark); }
+a:hover { color: var(--ink-deep); }
 :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
-.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top { position: relative; z-index: 2; background: var(--ground); border-bottom: 1px solid var(--line); }
 .top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
-.brand { margin: 0; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-.brand-name { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: 0.01em; }
+.brand { margin: 0; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; }
 .brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
 .top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
 
-.hero { position: relative; overflow: hidden; background: var(--ink); color: #FFFFFF; min-height: 680px; display: flex; align-items: flex-end; padding: 120px 64px 56px; }
-.hero-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 55%; }
-.hero-panel { position: relative; max-width: 600px; padding: 36px 40px; background: var(--scrim); border-radius: 8px; display: flex; flex-direction: column; gap: 18px; }
-.hero .eyebrow { color: rgba(255, 255, 255, 0.85); }
-.wordmark { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(64px, 8.5vw, 112px); line-height: 0.95; letter-spacing: -0.01em; color: #FFFFFF; }
-.tagline { margin: 0; font-family: var(--display); font-weight: 600; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15; text-wrap: balance; color: #FFFFFF; }
-.hero-sub { margin: 0; font-size: 19px; line-height: 1.5; max-width: 34em; color: rgba(255, 255, 255, 0.85); }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; padding-top: 4px; }
+/* Hero: foto achter een waas van gebroken wit; bij scrollen gaat de tekst sneller omhoog dan de pagina, de foto langzamer */
+.hero { position: relative; overflow: hidden; min-height: 680px; display: flex; align-items: center; padding: 96px 64px; background: var(--ground); }
+.hero-bg { position: absolute; inset: 0; will-change: transform; }
+.hero-media { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 72% 55%; }
+.hero-veil { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(245, 242, 234, 0.92) 0%, rgba(245, 242, 234, 0.84) 42%, rgba(245, 242, 234, 0.45) 100%); }
+.hero-inner { position: relative; z-index: 1; width: 100%; max-width: 1152px; margin: 0 auto; }
+.hero-panel { max-width: 680px; display: flex; flex-direction: column; gap: 20px; will-change: transform, opacity; }
+.eyebrow, .label, .kicker { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.kicker { font-size: 13px; letter-spacing: 0.12em; }
+.wordmark { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(48px, 6vw, 80px); line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; }
+.tagline { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.25; text-wrap: balance; }
+.hero-sub { margin: 0; font-size: 19px; line-height: 1.5; max-width: 32em; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 28px; border-radius: 6px; color: #FFFFFF; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: 0.02em; }
-.btn:hover { color: #FFFFFF; }
-.btn-rust { background: var(--rust); }
-.btn-rust:hover { background: var(--rust-dark); }
-.btn-teal { background: var(--teal); }
-.btn-teal:hover { background: var(--teal-dark); }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 26px; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; transition: background-color 0.15s; }
+.btn:hover { background: var(--tint); color: var(--ink); }
 
-.eyebrow, .label, .kicker { margin: 0; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; }
-.kicker { color: var(--accent); }
-.label { color: var(--muted); }
-.icon { fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.icon { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
-.routes-wrap { max-width: 1280px; margin: 0 auto; padding: 64px 64px 56px; display: flex; flex-direction: column; gap: 24px; }
-.routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
-.route { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 2px solid var(--ink); }
-.route-rust { --accent: var(--rust); --accent-dark: var(--rust-dark); }
-.route-teal { --accent: var(--teal); --accent-dark: var(--teal-dark); }
-.route > .icon { width: 36px; height: 36px; }
-.route h3 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.1; text-wrap: balance; }
-.route p { margin: 0; font-size: 17px; line-height: 1.5; }
+.routes-wrap { max-width: 1280px; margin: 0 auto; padding: 72px 64px 64px; display: flex; flex-direction: column; gap: 28px; }
+.routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+.route { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1.5px solid var(--ink); }
+.route > .icon { width: 34px; height: 34px; }
+.route h3 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.2; text-wrap: balance; }
+.route p { margin: 0; font-size: 17px; line-height: 1.55; }
 .route .muted { font-size: 16px; color: var(--muted); }
 .where { margin: 0; display: flex; align-items: flex-start; gap: 10px; font-size: 16px; }
-.where .icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; stroke-width: 2; }
+.where .icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; stroke-width: 1.8; }
 .route .btn { align-self: flex-start; margin-top: 8px; }
 
-.about { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.about-inner { max-width: 1280px; margin: 0 auto; padding: 40px 64px; display: flex; align-items: flex-start; gap: 64px; }
-.about-text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.about { background: var(--surface); border-top: 1px solid var(--line); }
+.about-inner { max-width: 1280px; margin: 0 auto; padding: 48px 64px; display: flex; align-items: flex-start; gap: 64px; }
+.about-text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 .about-text p { margin: 0; font-size: 17px; line-height: 1.55; max-width: 42em; }
 .about-text .more { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 4px; }
 .about-call { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
-.about-call .tel { margin: 0; font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.about-call .tel { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 28px; line-height: 1.1; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
 .about-call .tel a { text-decoration: none; }
 .about-call .note { margin: 0; font-size: 15px; color: var(--muted); }
 
-.foot { background: var(--surface); border-top: 1px solid var(--line); }
+.foot { background: var(--ground); border-top: 1px solid var(--line); }
 .foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
 
-@media (max-width: 1500px) {
-  .hero-media { transform: scale(1.22); transform-origin: 0% 45%; }
-}
 @media (max-width: 960px) {
   body { font-size: 17px; }
   .top-inner { padding: 14px 20px; }
-  .brand { flex-direction: column; gap: 4px; }
-  .brand-name { font-size: 22px; }
+  .brand { flex-direction: column; gap: 2px; }
+  .brand-name { font-size: 18px; }
   .top-call { display: none; }
-  .hero { display: block; min-height: 0; padding: 0; }
-  .hero-media { position: static; display: block; width: 100%; height: 320px; object-position: 78% 50%; transform: none; }
-  .hero-panel { max-width: none; padding: 24px 20px 28px; background: var(--ink); border-radius: 0; gap: 14px; }
-  .hero .eyebrow, .label, .kicker { font-size: 14px; }
-  .hero-sub { font-size: 16px; }
+  .hero { min-height: 0; padding: 72px 20px 56px; }
+  .hero-veil { background: rgba(245, 242, 234, 0.86); }
+  .hero-media { object-position: 80% 50%; }
+  .hero-panel { gap: 16px; }
+  .eyebrow, .label, .kicker { font-size: 13px; }
+  .wordmark { font-size: clamp(34px, 10vw, 56px); letter-spacing: 0.1em; }
+  .tagline { font-size: 21px; }
+  .hero-sub { font-size: 17px; }
   .hero-actions { flex-direction: column; gap: 12px; }
   .btn { height: 54px; width: 100%; }
-  .routes-wrap { padding: 32px 20px 36px; gap: 20px; }
-  .routes { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .route { gap: 8px; padding-top: 14px; }
-  .route > .icon { width: 32px; height: 32px; }
-  .route h3 { font-size: 28px; }
+  .routes-wrap { padding: 40px 20px 44px; gap: 22px; }
+  .routes { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .route { gap: 10px; padding-top: 16px; }
+  .route > .icon { width: 30px; height: 30px; }
+  .route h3 { font-size: 23px; }
   .route p { font-size: 16px; }
   .route .muted, .where { font-size: 15px; }
-  .about-inner { flex-direction: column; gap: 18px; padding: 28px 20px; }
+  .about-inner { flex-direction: column; gap: 18px; padding: 32px 20px; }
   .about-text p { font-size: 16px; }
   .about-call { width: auto; padding-top: 16px; border-top: 1px solid var(--line); }
-  .about-call .tel { font-size: 28px; }
+  .about-call .tel { font-size: 26px; }
   .foot-inner { padding: 18px 20px; flex-direction: column; }
 }
 </style>
@@ -139,15 +129,20 @@ a:hover { color: var(--accent-dark); }
 <main>
 
   <section class="hero" aria-label="Introductie">
-    <img class="hero-media" src="beeld/hero.jpg" srcset="beeld/hero-900.jpg 900w, beeld/hero.jpg 1600w, beeld/hero-2560.jpg 2560w" sizes="100vw" alt="" width="1600" height="893" fetchpriority="high">
-    <div class="hero-panel">
-      <p class="eyebrow">Nieuw · najaar 2026</p>
-      <h1 class="wordmark">Deckshare</h1>
-      <p class="tagline">Voor wie een boot heeft. Of er een wil delen.</p>
-      <p class="hero-sub">Ik ben Pepijn, booteigenaar. Dit najaar begin ik voor mezelf, en ik begin klein. Kies wat bij je past.</p>
-      <div class="hero-actions">
-        <a class="btn btn-rust" href="/winterproces/">Winterproces regelen</a>
-        <a class="btn btn-teal" href="/bootdelen/">Boot delen</a>
+    <div class="hero-bg" aria-hidden="true">
+      <img class="hero-media" src="beeld/hero.jpg" srcset="beeld/hero-900.jpg 900w, beeld/hero.jpg 1600w, beeld/hero-2560.jpg 2560w" sizes="100vw" alt="" width="1600" height="893" fetchpriority="high">
+    </div>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-panel">
+        <p class="eyebrow">Nieuw · najaar 2026</p>
+        <h1 class="wordmark">Deckshare</h1>
+        <p class="tagline">Voor wie een boot heeft. Of er een wil delen.</p>
+        <p class="hero-sub">Ik ben Pepijn, booteigenaar. Dit najaar begin ik voor mezelf, en ik begin klein. Kies wat bij je past.</p>
+        <div class="hero-actions">
+          <a class="btn" href="/winterproces/">Winterproces regelen</a>
+          <a class="btn" href="/bootdelen/">Boot delen</a>
+        </div>
       </div>
     </div>
   </section>
@@ -156,24 +151,24 @@ a:hover { color: var(--accent-dark); }
     <h2 class="label" id="routes-titel">Twee manieren om mee te doen</h2>
     <div class="routes">
 
-      <article class="route route-rust">
+      <article class="route">
         <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 28V5h19"></path><path d="M22 5v8"></path><path d="M14 13h16l-3 5H17z"></path><path d="M13 24c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"></path><path d="M3 28h9"></path></svg>
         <p class="kicker">Ontzorgen · start dit najaar</p>
         <h3>Je boot de winter in, met één aanspreekpunt.</h3>
         <p>Dit najaar regel ik dat je boot uit het water gaat, vervoerd wordt, onderhoud krijgt en gestald wordt. Bedrijven uit de regio doen het werk; jij hebt alleen met mij contact.</p>
         <p class="muted">Ik begin klein: dit najaar help ik maximaal drie boten. Voor het regelen betaal je in deze startperiode niets.</p>
         <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland, ongeacht de lengte van de boot.</span></p>
-        <a class="btn btn-rust" href="/winterproces/">Winterproces regelen</a>
+        <a class="btn" href="/winterproces/">Winterproces regelen</a>
       </article>
 
-      <article class="route route-teal">
+      <article class="route">
         <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="9" r="3.5"></circle><path d="M9.5 24c0-4.5 3-7 6.5-7s6.5 2.5 6.5 7"></path><circle cx="7" cy="12" r="2.8"></circle><path d="M2.5 24c0-3.6 2-5.8 4.5-5.8 1.2 0 2.3.4 3.1 1.2"></path><circle cx="25" cy="12" r="2.8"></circle><path d="M29.5 24c0-3.6-2-5.8-4.5-5.8-1.2 0-2.3.4-3.1 1.2"></path></svg>
         <p class="kicker">Boot delen · op zoek naar de eerste deelnemers</p>
         <h3>Boot delen in de regio</h3>
         <p>Vaar je maar een paar keer per jaar? Liggeld, stalling, verzekering en onderhoud lopen toch door. Deel je één boot met twee of drie anderen, dan deel je ook die vaste lasten.</p>
         <p class="muted">Meedoen kan met een eigen boot, of als mede-eigenaar zonder boot. Er is nog geen gedeelde boot, en ik verhuur of verkoop niets.</p>
         <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren en mensen die graag varen, in heel Nederland.</span></p>
-        <a class="btn btn-teal" href="/bootdelen/">Boot delen</a>
+        <a class="btn" href="/bootdelen/">Boot delen</a>
       </article>
 
     </div>
@@ -203,5 +198,41 @@ a:hover { color: var(--accent-dark); }
   </div>
 </footer>
 
+<script>
+(function () {
+  var hero = document.querySelector('.hero');
+  if (!hero) return;
+  var bg = hero.querySelector('.hero-bg');
+  var panel = hero.querySelector('.hero-panel');
+  var rustig = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var bezig = false;
+
+  function teken() {
+    bezig = false;
+    if (rustig.matches) {
+      bg.style.transform = '';
+      panel.style.transform = '';
+      panel.style.opacity = '';
+      return;
+    }
+    var hoogte = hero.offsetHeight;
+    var y = Math.min(Math.max(window.scrollY || window.pageYOffset || 0, 0), hoogte);
+    // De foto zakt mee: hij beweegt langzamer omhoog dan de pagina.
+    bg.style.transform = 'translate3d(0,' + (y * 0.35).toFixed(1) + 'px,0)';
+    // De tekst gaat sneller omhoog dan de pagina en vervaagt.
+    panel.style.transform = 'translate3d(0,' + (-y * 0.45).toFixed(1) + 'px,0)';
+    panel.style.opacity = Math.max(0, 1 - y / (hoogte * 0.7)).toFixed(3);
+  }
+
+  function opScroll() {
+    if (!bezig) { bezig = true; window.requestAnimationFrame(teken); }
+  }
+
+  window.addEventListener('scroll', opScroll, { passive: true });
+  window.addEventListener('resize', opScroll);
+  if (rustig.addEventListener) rustig.addEventListener('change', opScroll);
+  teken();
+})();
+</script>
 </body>
 </html>
