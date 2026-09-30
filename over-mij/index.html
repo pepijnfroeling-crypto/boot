@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Over mij · Deckshare</title>
+<meta name="description" content="Pepijn Froeling, booteigenaar. Mijn boten tot nu toe, en wat ik eraan heb gedaan.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://deckshare.nl/over-mij/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deckshare.nl/over-mij/">
+<meta property="og:title" content="Over mij · Deckshare">
+<meta property="og:description" content="Pepijn Froeling, booteigenaar. Mijn boten tot nu toe.">
+<meta property="og:image" content="https://deckshare.nl/beeld/hero.jpg">
+<meta name="theme-color" content="#12263A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312263A'/%3E%3Cpath d='M5 17h22l-4 7H9z' fill='%230F6B63'/%3E%3Ccircle cx='11' cy='11' r='2.5' fill='%23F3F5F4'/%3E%3Ccircle cx='16' cy='10' r='2.5' fill='%23F3F5F4'/%3E%3Ccircle cx='21' cy='11' r='2.5' fill='%23F3F5F4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground: #F3F5F4;
+  --surface: #FFFFFF;
+  --ink: #12263A;
+  --ink-dark: #0B1826;
+  --muted: #4B5D69;
+  --line: #D5DDDA;
+  --field: #7D8E98;
+  --teal: #0F6B63;
+  --display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
+a { color: var(--ink); }
+a:hover { color: var(--ink-dark); }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Alleen in het concept: markeringen voor wat Pepijn nog invult of controleert */
+.concept { background: #FFF1B8; border-bottom: 1px solid #E3C75A; }
+.concept p { max-width: 1280px; margin: 0 auto; padding: 10px 64px; font-size: 15px; line-height: 1.45; }
+mark.todo { background: #FFE27A; color: var(--ink); padding: 0 4px; border-radius: 3px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.check { text-decoration: underline dotted #B08A00 2px; text-underline-offset: 5px; }
+
+.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+.brand { margin: 0; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.brand-name { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: 0.01em; text-decoration: none; }
+.brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
+.top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+.eyebrow, .label, .kicker { margin: 0; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; }
+.eyebrow, .label { color: var(--muted); }
+.kicker { color: var(--ink); }
+
+.intro { max-width: 1280px; margin: 0 auto; padding: 64px 64px 8px; display: flex; flex-direction: column; gap: 18px; }
+h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(44px, 5.2vw, 64px); line-height: 1.02; letter-spacing: -0.005em; text-wrap: balance; }
+.lead { margin: 0; font-size: 21px; line-height: 1.5; max-width: 32em; }
+
+.story { max-width: 1280px; margin: 0 auto; padding: 48px 64px 64px; display: flex; flex-direction: column; gap: 28px; }
+
+/* Tijdlijn: jaartal links, lijn in het midden, verhaal rechts */
+.timeline { --year-w: 132px; --rail: 36px; --x: calc(var(--year-w) + var(--rail) / 2); list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.stop { position: relative; display: grid; grid-template-columns: var(--year-w) var(--rail) minmax(0, 1fr); padding-bottom: 56px; }
+.stop:last-child { padding-bottom: 0; }
+.stop::after { content: ""; position: absolute; top: 20px; bottom: -20px; left: calc(var(--x) - 1px); width: 2px; background: var(--ink); }
+.stop:last-child::after { display: none; }
+.stop::before { content: ""; position: absolute; z-index: 1; top: 12px; left: calc(var(--x) - 8px); width: 16px; height: 16px; border-radius: 50%; background: var(--ground); border: 3px solid var(--ink); }
+.stop-now::before { background: var(--ink); }
+.year { grid-column: 1; margin: 0; font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1; text-align: right; font-variant-numeric: tabular-nums; }
+.year mark.todo { font-size: 26px; }
+.stop-body { grid-column: 3; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.stop-body h3 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.1; text-wrap: balance; }
+.stop-body > p { margin: 0; font-size: 17px; line-height: 1.55; max-width: 38em; }
+
+.photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 880px; margin: 8px 0 0; padding: 0; }
+.photos figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.photos figcaption { font-size: 15px; color: var(--muted); }
+.zoom { position: relative; display: block; width: 100%; padding: 0; border: 0; border-radius: 6px; overflow: hidden; background: var(--line); cursor: zoom-in; }
+.zoom img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; }
+.zoom .hint { position: absolute; right: 8px; bottom: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(18, 38, 58, 0.72); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
+.zoom:hover .hint, .zoom:focus-visible .hint { opacity: 1; }
+.hint svg { width: 20px; height: 20px; fill: none; stroke: #FFFFFF; stroke-width: 2; stroke-linecap: round; }
+@media (hover: none) { .zoom .hint { opacity: 1; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; align-self: flex-start; height: 56px; margin-top: 8px; padding: 0 28px; border-radius: 6px; background: var(--ink); color: #FFFFFF; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: 0.02em; }
+.btn:hover { background: var(--ink-dark); color: #FFFFFF; }
+
+.about { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.about-inner { max-width: 1280px; margin: 0 auto; padding: 40px 64px; display: flex; flex-direction: column; gap: 6px; }
+.about .tel { margin: 0; font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.about .tel a { text-decoration: none; }
+.about .note { margin: 0; font-size: 15px; color: var(--muted); }
+
+.foot { background: var(--surface); }
+.foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+/* Foto groot */
+.viewer { width: min(92vw, 560px); max-height: 94vh; padding: 0; border: 0; border-radius: 8px; background: var(--ink); color: #FFFFFF; overflow: hidden; }
+.viewer::backdrop { background: rgba(11, 24, 38, 0.86); }
+.viewer img { display: block; width: 100%; max-height: calc(94vh - 56px); object-fit: contain; background: var(--ink); }
+.viewer-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 6px 6px 6px 18px; }
+.viewer-cap { margin: 0; font-size: 15px; color: rgba(255, 255, 255, 0.85); }
+.viewer-close { flex-shrink: 0; width: 44px; height: 44px; border: 0; border-radius: 6px; background: transparent; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.viewer-close:hover { background: rgba(255, 255, 255, 0.12); }
+.viewer-close:focus-visible { outline-color: #FFFFFF; }
+.viewer-close svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+@media (max-width: 960px) {
+  body { font-size: 17px; }
+  .concept p { padding: 10px 20px; }
+  .top-inner { padding: 14px 20px; }
+  .brand { flex-direction: column; gap: 4px; }
+  .brand-name { font-size: 22px; }
+  .top-call { display: none; }
+  .eyebrow, .label, .kicker { font-size: 14px; }
+  .intro { padding: 32px 20px 0; gap: 14px; }
+  .lead { font-size: 19px; }
+  .story { padding: 32px 20px 44px; gap: 22px; }
+  .timeline { --x: 8px; }
+  .stop { grid-template-columns: minmax(0, 1fr); padding: 0 0 44px 36px; }
+  .stop::before { top: 8px; }
+  .stop::after { top: 16px; bottom: -8px; }
+  .year { grid-column: 1; text-align: left; font-size: 36px; margin-bottom: 8px; }
+  .year mark.todo { font-size: 22px; }
+  .stop-body { grid-column: 1; gap: 8px; }
+  .stop-body h3 { font-size: 28px; }
+  .stop-body > p { font-size: 16px; }
+  .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .btn { height: 54px; width: 100%; }
+  .about-inner { padding: 28px 20px; }
+  .about .tel { font-size: 28px; }
+  .foot-inner { padding: 18px 20px; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="concept" role="note"><p><strong>Concept, niet live.</strong> <mark class="todo">Geel</mark> vult Pepijn in. <span class="check">Stippellijn</span> is een voorstel van Claude op basis van de foto's: klopt het, of anders?</p></div>
+
+<header class="top">
+  <div class="top-inner">
+    <p class="brand"><a class="brand-name" href="/">Deckshare</a><span class="brand-sub">door Pepijn, booteigenaar</span></p>
+    <p class="top-call">Liever zelf bellen? <a href="tel:+31612809664">06 12 80 96 64</a></p>
+  </div>
+</header>
+
+<main>
+
+  <section class="intro" aria-labelledby="naam">
+    <p class="eyebrow">Over mij</p>
+    <h1 id="naam">Pepijn Froeling, booteigenaar</h1>
+    <p class="lead">Ik doe al lang iets met bootjes. <span class="check">Hieronder staan mijn boten op een rij, en wat ik eraan heb gedaan.</span> <mark class="todo">Eén zin over sinds wanneer, of wat je eraan trekt.</mark></p>
+  </section>
+
+  <section class="story" aria-labelledby="tijdlijn-titel">
+    <h2 class="label" id="tijdlijn-titel">Mijn boten tot nu toe</h2>
+
+    <ol class="timeline">
+
+      <li class="stop">
+        <p class="year"><mark class="todo">jaar</mark></p>
+        <div class="stop-body">
+          <p class="kicker">Boot 1</p>
+          <h3><span class="check">Een klein speedbootje</span></h3>
+          <p><span class="check">Van dof rood naar glanzend rood, met twee zwarte strepen over de neus.</span> <mark class="todo">Wat voor boot (merk, lengte), wat deed je zelf, en wat gebeurde er daarna mee?</mark></p>
+          <div class="photos">
+            <figure>
+              <button class="zoom" type="button" data-full="../beeld/over-mij/boot-1-voor.jpg"><img src="../beeld/over-mij/boot-1-voor.jpg" width="338" height="600" loading="lazy" alt="Klein rood speedbootje met buitenboordmotor aan een houten kade, de lak dof en verweerd"><span class="hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5M10.5 8v5M8 10.5h5"></path></svg></span><span class="sr">, vergroten</span></button>
+              <figcaption>Voor</figcaption>
+            </figure>
+            <figure>
+              <button class="zoom" type="button" data-full="../beeld/over-mij/boot-1-na.jpg"><img src="../beeld/over-mij/boot-1-na.jpg" width="338" height="600" loading="lazy" alt="Hetzelfde speedbootje na het opknappen: glanzend rood met twee zwarte strepen over de voorkant"><span class="hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5M10.5 8v5M8 10.5h5"></path></svg></span><span class="sr">, vergroten</span></button>
+              <figcaption>Na</figcaption>
+            </figure>
+          </div>
+        </div>
+      </li>
+
+      <li class="stop">
+        <p class="year"><mark class="todo">jaar</mark></p>
+        <div class="stop-body">
+          <p class="kicker">Boot 2</p>
+          <h3><mark class="todo">Wat voor boot?</mark></h3>
+          <p><span class="check">Donkerblauw aan de buitenkant, wit van binnen, met een houten vloer.</span> <mark class="todo">Wat deed je eraan, en wat gebeurde er daarna mee?</mark></p>
+          <div class="photos">
+            <figure>
+              <button class="zoom" type="button" data-full="../beeld/over-mij/boot-2.jpg"><img src="../beeld/over-mij/boot-2-360.jpg" srcset="../beeld/over-mij/boot-2-360.jpg 360w, ../beeld/over-mij/boot-2.jpg 720w" sizes="(max-width: 960px) 44vw, 230px" width="360" height="640" loading="lazy" alt="Open boot met platte bodem op het grind, donkerblauw aan de buitenkant en wit van binnen, met een houten vloer aan één kant"><span class="hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5M10.5 8v5M8 10.5h5"></path></svg></span><span class="sr">, vergroten</span></button>
+              <figcaption>Na het opknappen</figcaption>
+            </figure>
+          </div>
+        </div>
+      </li>
+
+      <li class="stop">
+        <p class="year"><mark class="todo">jaar</mark></p>
+        <div class="stop-body">
+          <p class="kicker">Boot 3</p>
+          <h3><mark class="todo">Wat voor boot?</mark></h3>
+          <p><span class="check">Op de foto's ben ik bezig met de houten vloer en de banken.</span> <mark class="todo">Wat deed je nog meer, en heb je hem nu nog?</mark></p>
+          <div class="photos">
+            <figure>
+              <button class="zoom" type="button" data-full="../beeld/over-mij/boot-3-zij.jpg"><img src="../beeld/over-mij/boot-3-zij-360.jpg" srcset="../beeld/over-mij/boot-3-zij-360.jpg 360w, ../beeld/over-mij/boot-3-zij.jpg 720w" sizes="(max-width: 960px) 44vw, 230px" width="360" height="640" loading="lazy" alt="Houten boot op bokken in een tuin, groene rand, grijze romp en zwarte onderkant, met een nieuwe houten vloer"><span class="hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5M10.5 8v5M8 10.5h5"></path></svg></span><span class="sr">, vergroten</span></button>
+              <figcaption>Zijkant</figcaption>
+            </figure>
+            <figure>
+              <button class="zoom" type="button" data-full="../beeld/over-mij/boot-3-voor.jpg"><img src="../beeld/over-mij/boot-3-voor-360.jpg" srcset="../beeld/over-mij/boot-3-voor-360.jpg 360w, ../beeld/over-mij/boot-3-voor.jpg 720w" sizes="(max-width: 960px) 44vw, 230px" width="360" height="640" loading="lazy" alt="Dezelfde boot van voren gezien, met houtkrullen en planken op het grind"><span class="hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5M10.5 8v5M8 10.5h5"></path></svg></span><span class="sr">, vergroten</span></button>
+              <figcaption>Voorkant</figcaption>
+            </figure>
+            <figure>
+              <button class="zoom" type="button" data-full="../beeld/over-mij/boot-3-dek.jpg"><img src="../beeld/over-mij/boot-3-dek-360.jpg" srcset="../beeld/over-mij/boot-3-dek-360.jpg 360w, ../beeld/over-mij/boot-3-dek.jpg 720w" sizes="(max-width: 960px) 44vw, 230px" width="360" height="640" loading="lazy" alt="Binnenkant van de boot met een nieuwe houten vloer, met boormachines, een schaaf en gereedschap op de bank"><span class="hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5M10.5 8v5M8 10.5h5"></path></svg></span><span class="sr">, vergroten</span></button>
+              <figcaption>Binnenkant</figcaption>
+            </figure>
+          </div>
+        </div>
+      </li>
+
+      <li class="stop stop-now">
+        <p class="year">2026</p>
+        <div class="stop-body">
+          <p class="kicker">Nu</p>
+          <h3>Deckshare</h3>
+          <p>De afgelopen weken heb ik tientallen booteigenaren gesproken en ondervraagd. Nu begin ik voor mezelf, en ik begin klein.</p>
+          <a class="btn" href="/">Naar de homepage</a>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <section class="about" aria-labelledby="bel-titel">
+    <div class="about-inner">
+      <h2 class="label" id="bel-titel">Liever zelf bellen?</h2>
+      <p class="tel"><a href="tel:+31612809664">06 12 80 96 64</a></p>
+      <p class="note">Voor vragen.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <span>Deckshare · door Pepijn, booteigenaar</span>
+    <span>Nieuw · najaar 2026</span>
+  </div>
+</footer>
+
+<dialog class="viewer" id="viewer" aria-labelledby="viewer-cap">
+  <img id="viewer-img" src="data:," alt="">
+  <div class="viewer-bar">
+    <p class="viewer-cap" id="viewer-cap"></p>
+    <form method="dialog"><button class="viewer-close" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span class="sr">Sluiten</span></button></form>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  var viewer = document.getElementById('viewer');
+  if (!viewer || typeof viewer.showModal !== 'function') return;
+  var img = document.getElementById('viewer-img');
+  var cap = document.getElementById('viewer-cap');
+
+  document.querySelectorAll('.zoom').forEach(function (knop) {
+    knop.addEventListener('click', function () {
+      var klein = knop.querySelector('img');
+      var figuur = knop.closest('figure');
+      var onderschrift = figuur ? figuur.querySelector('figcaption') : null;
+      img.src = knop.getAttribute('data-full');
+      img.alt = klein ? klein.alt : '';
+      cap.textContent = onderschrift ? onderschrift.textContent : '';
+      viewer.showModal();
+    });
+  });
+
+  viewer.addEventListener('click', function (e) {
+    if (e.target === viewer) viewer.close();
+  });
+  viewer.addEventListener('close', function () { img.src = 'data:,'; });
+})();
+</script>
+</body>
+</html>
