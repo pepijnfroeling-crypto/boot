@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deckshare · Jij geeft de sleutel, ik regel de rest</title>
+<meta name="description" content="Vaar je maar een paar keer per jaar? Ik verhuur je boot op de dagen die jij opgeeft en regel alles eromheen: huurders, overdracht, schoonmaak, verzekering en schade. Deckshare, door Pepijn, booteigenaar.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deckshare.nl/verhuur/">
+<meta property="og:title" content="Deckshare · Jij geeft de sleutel, ik regel de rest">
+<meta property="og:description" content="Ik verhuur je boot op de dagen die jij opgeeft en regel alles eromheen. Jij bepaalt wanneer; ik doe de rest.">
+<meta name="theme-color" content="#F5F2EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Saira:wdth,wght@125,500;125,600&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground: #F5F2EA;
+  --surface: #FFFFFF;
+  --ink: #1E3A2F;
+  --ink-deep: #113728;
+  --muted: #5B645D;
+  --line: #DDD6C6;
+  --rule: #D3CBBA;
+  --field: #7A847C;
+  --tint: #B7D3C2;
+  --accent: #1E3A2F;
+  --accent-dark: #113728;
+  --display: 'Saira', 'Arial', sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
+a { color: var(--ink); }
+a:hover { color: var(--ink-deep); }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+.top { background: var(--ground); border-bottom: 1px solid var(--line); }
+.top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+.brand { margin: 0 auto 0 0; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
+.brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
+.top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+/* Menu: knop met drie streepjes linksboven; het paneel schuift van links over de hele pagina */
+.menu-btn { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; transition: background-color 0.15s; }
+.menu-btn:hover { background: var(--tint); }
+.menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.menu-panel { position: fixed; inset: 0; z-index: 10; overflow-y: auto; background: var(--ground); transform: translateX(-100%); visibility: hidden; transition: transform 0.3s ease, visibility 0s linear 0.3s; }
+.menu-panel.open { transform: none; visibility: visible; transition: transform 0.3s ease, visibility 0s; }
+@media (prefers-reduced-motion: reduce) { .menu-panel, .menu-panel.open { transition: none; } }
+.menu-list { max-width: 1280px; margin: 0 auto; padding: 32px 64px 64px; list-style: none; }
+.menu-list li { border-bottom: 1px solid var(--line); }
+.menu-list a { display: block; padding: 24px 0; text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(22px, 3vw, 38px); line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; }
+.menu-list a:hover, .menu-list a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 8px; }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding: 56px 64px 64px; display: grid; grid-template-columns: minmax(0, 1fr) 440px; gap: 64px; align-items: start; }
+.content, .side { display: flex; flex-direction: column; }
+.content { gap: 48px; }
+.side { gap: 28px; }
+section { display: flex; flex-direction: column; gap: 18px; }
+
+.eyebrow, .label, .kicker { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.kicker { font-size: 13px; letter-spacing: 0.12em; }
+h1 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(34px, 4.2vw, 54px); line-height: 1.08; text-wrap: balance; }
+.lead { margin: 0; font-size: 21px; line-height: 1.5; max-width: 32em; }
+.about { margin: 0; font-size: 17px; color: var(--muted); max-width: 36em; }
+.where { margin: 0; display: flex; align-items: flex-start; gap: 10px; font-size: 16px; }
+.where svg { width: 24px; height: 24px; flex-shrink: 0; }
+.cta { display: none; }
+.icon { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Vier tegels: wat ik regel */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.tile { display: flex; flex-direction: column; gap: 8px; padding-top: 16px; border-top: 1.5px solid var(--ink); }
+.tile svg { width: 32px; height: 32px; }
+.tile h3 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 19px; line-height: 1.2; }
+.tile p { margin: 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
+.note { margin: 0; font-size: 17px; }
+
+.steps { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.steps li { display: flex; flex-direction: column; gap: 6px; }
+.num { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 40px; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.steps h3 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; line-height: 1.25; }
+.steps p { margin: 0; font-size: 16px; line-height: 1.5; }
+
+.card { padding: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; scroll-margin-top: 16px; }
+.card h2 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.15; }
+.card .intro { margin: 6px 0 0; font-size: 17px; color: var(--muted); }
+form { display: flex; flex-direction: column; gap: 18px; margin-top: 18px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label { font-weight: 700; font-size: 16px; line-height: 1.3; }
+input[type="tel"], input[type="text"], select {
+  width: 100%; height: 52px; padding: 0 14px; font-family: inherit; font-size: 17px; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--field); border-radius: 4px;
+}
+select { padding: 0 12px; }
+input::placeholder { color: var(--muted); }
+.btn { height: 56px; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background-color 0.15s; }
+.btn:hover { background: var(--tint); }
+.btn[disabled] { opacity: 0.7; cursor: wait; }
+.privacy { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.thanks { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.thanks p { margin: 0; }
+.thanks .big { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 22px; line-height: 1.2; }
+.error { margin: 0; font-size: 16px; color: var(--ink); font-weight: 700; }
+
+.info { display: flex; flex-direction: column; gap: 8px; padding-top: 20px; border-top: 1px solid var(--rule); }
+.info h2 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; line-height: 1.25; }
+.info p { margin: 0; font-size: 16px; line-height: 1.55; }
+
+.foot { background: var(--ground); border-top: 1px solid var(--line); }
+.foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+@media (max-width: 960px) {
+  body { font-size: 17px; }
+  .top-inner { padding: 14px 20px; flex-wrap: nowrap; gap: 16px; }
+  .brand { flex-direction: column; gap: 2px; }
+  .brand-name { font-size: 18px; }
+  .top-call { display: none; }
+  .menu-list { padding: 16px 20px 40px; }
+  .menu-list a { padding: 20px 0; font-size: 20px; }
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 28px 20px 40px; }
+  .content { gap: 40px; }
+  .eyebrow, .label, .kicker { font-size: 13px; }
+  .lead { font-size: 19px; }
+  .about { font-size: 16px; }
+  .cta { display: flex; align-items: center; justify-content: center; height: 54px; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .cta:hover { color: var(--ink); background: var(--tint); }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .card { padding: 24px; }
+  .foot-inner { padding: 18px 20px; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <button class="menu-btn" type="button" id="menu-open" aria-label="Menu openen" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+    <p class="brand"><a class="brand-name" href="/">Deckshare</a><span class="brand-sub">door Pepijn, booteigenaar</span></p>
+    <p class="top-call">Liever zelf bellen? <a href="tel:+31612809664">06 12 80 96 64</a></p>
+  </div>
+</header>
+
+<nav class="menu-panel" id="menu" aria-label="Menu">
+  <div class="top">
+    <div class="top-inner">
+      <button class="menu-btn" type="button" id="menu-sluit" aria-label="Menu sluiten"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      <p class="brand"><a class="brand-name" href="/">Deckshare</a></p>
+    </div>
+  </div>
+  <ul class="menu-list">
+    <li><a href="/">Homepagina</a></li>
+    <li><a href="/verhuur/" aria-current="page">Particuliere turnkey verhuur</a></li>
+    <li><a href="/bootdelen/">Boot delen</a></li>
+    <li><a href="/winterproces/">Winterproces uit handen geven</a></li>
+    <li><a href="/over-mij/">Over mij</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+  <div class="content">
+
+    <section>
+      <p class="eyebrow">Nieuw · op zoek naar de eerste boten</p>
+      <h1>Jij geeft de sleutel. Ik regel de rest.</h1>
+      <p class="lead">Vaar je maar een paar keer per jaar? Dan ligt je boot de rest van de tijd stil, terwijl liggeld, verzekering en onderhoud doorlopen. Ik verhuur hem voor je op de dagen die jij opgeeft, en regel alles eromheen. Jij bepaalt wanneer; ik doe de rest.</p>
+      <p class="about">Ik ben Pepijn, booteigenaar. De afgelopen weken heb ik tientallen booteigenaren gesproken en ondervraagd. Veel boten liggen het grootste deel van het jaar stil. Nu begin ik voor mezelf, en ik zoek de eerste eigenaren. Er is nog geen boot in de verhuur.</p>
+      <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true" style="stroke-width: 2"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland.</span></p>
+      <a class="cta" href="#terugbellen">Laat je nummer achter</a>
+    </section>
+
+    <section>
+      <h2 class="label">Wat ik regel</h2>
+      <div class="tiles">
+        <div class="tile">
+          <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="9" r="3.5"></circle><path d="M9.5 24c0-4.5 3-7 6.5-7s6.5 2.5 6.5 7"></path><circle cx="7" cy="12" r="2.8"></circle><path d="M2.5 24c0-3.6 2-5.8 4.5-5.8 1.2 0 2.3.4 3.1 1.2"></path><circle cx="25" cy="12" r="2.8"></circle><path d="M29.5 24c0-3.6-2-5.8-4.5-5.8-1.2 0-2.3.4-3.1 1.2"></path></svg>
+          <h3>Huurders</h3>
+          <p>ik zoek ze en maak de afspraken</p>
+        </div>
+        <div class="tile">
+          <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="12" r="6"></circle><path d="M15.5 15.5 28 28"></path><path d="M23 23l3-3M26 26l3-3"></path></svg>
+          <h3>Overdracht</h3>
+          <p>ik geef de boot uit, neem hem in en loop hem na</p>
+        </div>
+        <div class="tile">
+          <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 20h20l-3 6H9z"></path><path d="M4 16c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"></path><path d="M12 12V5h8v7"></path></svg>
+          <h3>Schoon terug</h3>
+          <p>na elke verhuur ligt de boot schoon op zijn plek</p>
+        </div>
+        <div class="tile">
+          <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 6 8v8c0 6.5 4.3 11 10 12.5C21.7 27 26 22.5 26 16V8z"></path><path d="m11.5 16 3 3 6-6"></path></svg>
+          <h3>Verzekering en schade</h3>
+          <p>geregeld door mij, niet door jou</p>
+        </div>
+      </div>
+      <p class="note">Jij bepaalt op welke dagen de boot beschikbaar is. Buiten die dagen komt er niemand aan boord.</p>
+    </section>
+
+    <section>
+      <h2 class="label">Zo werkt het</h2>
+      <ol class="steps">
+        <li><span class="num">1</span><h3>Kort gesprek</h3><p>Je vertelt waar je boot ligt, wat het voor boot is en op welke dagen hij vrij is.</p></li>
+        <li><span class="num">2</span><h3>Afspraken op papier</h3><p>Ik zet op een rij hoe de verhuur loopt, wat jij ervan krijgt en hoe verzekering en schade geregeld zijn.</p></li>
+        <li><span class="num">3</span><h3>Jij beslist</h3><p>Zeg je ja, dan geef je mij de sleutel en ga ik huurders zoeken. Zeg je nee, dan houdt het daar op. Je kunt de boot op elk moment weer voor jezelf houden.</p></li>
+      </ol>
+    </section>
+
+  </div>
+
+  <aside class="side">
+
+    <section class="card" id="terugbellen" aria-labelledby="formtitel">
+      <h2 id="formtitel">Laat je nummer achter</h2>
+      <p class="intro">Ik bel je binnen twee werkdagen terug voor een kort gesprek.</p>
+      <form id="aanmeldform" novalidate>
+        <div class="field">
+          <label for="tel">Telefoonnummer</label>
+          <input id="tel" name="entry.NOG_INVULLEN_TEL" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 …" required>
+        </div>
+        <div class="field">
+          <label for="plek">Waar ligt je boot?</label>
+          <input id="plek" name="entry.NOG_INVULLEN_PLEK" type="text" placeholder="Plaats, haven of eigen steiger" required>
+        </div>
+        <div class="field">
+          <label for="lengte">Hoe lang is je boot?</label>
+          <select id="lengte" name="entry.NOG_INVULLEN_LENGTE" required>
+            <option value="">Kies een lengte</option>
+            <option>Korter dan 6 meter</option>
+            <option>6 tot 7 meter</option>
+            <option>7 tot 9 meter</option>
+            <option>9 tot 12 meter</option>
+            <option>Langer dan 12 meter</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="gebruik">Hoe vaak vaar je zelf per jaar?</label>
+          <select id="gebruik" name="entry.NOG_INVULLEN_GEBRUIK" required>
+            <option value="">Kies een antwoord</option>
+            <option>Minder dan 5 keer</option>
+            <option>5 tot 15 keer</option>
+            <option>Vaker dan 15 keer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="kanaal">Hoe kwam je op deze pagina?</label>
+          <select id="kanaal" name="entry.NOG_INVULLEN_KANAAL" required>
+            <option value="">Kies een antwoord</option>
+            <option>Marktplaats</option>
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>TikTok</option>
+            <option>Een andere advertentie op internet</option>
+            <option>Briefje bij een haven, stalling of camping</option>
+            <option>Via een bedrijf</option>
+            <option>Via iemand die ik ken</option>
+            <option>Anders</option>
+          </select>
+        </div>
+        <button class="btn" type="submit">Bel mij terug</button>
+        <p class="error" id="fout" role="alert" hidden></p>
+        <p class="privacy">Ik gebruik je nummer alleen om je terug te bellen over je boot. Word je geen klant, dan wis ik het weer.</p>
+      </form>
+      <div class="thanks" id="bedankt" role="status" tabindex="-1" hidden>
+        <p class="big">Dank je, je nummer is verstuurd.</p>
+        <p>Ik bel je binnen twee werkdagen terug.</p>
+        <p class="privacy">Geen telefoontje gehad? Bel of app me: <a href="tel:+31612809664">06 12 80 96 64</a></p>
+      </div>
+    </section>
+
+    <section class="info">
+      <h2>Wat het kost</h2>
+      <p>Je betaalt niets vooraf. Hoe de huur verdeeld wordt, bespreken we in het gesprek.</p>
+    </section>
+
+    <section class="info">
+      <h2>Wie het werk doet</h2>
+      <p>Ik. Huurders zoeken, de boot uitgeven en innemen, schoonmaken, verzekering en schade: dat is mijn werk. Jij geeft de sleutel.</p>
+    </section>
+
+  </aside>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <span>Deckshare · door Pepijn, booteigenaar</span>
+    <span>Nieuw · najaar 2026</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var paneel = document.getElementById('menu');
+  var open = document.getElementById('menu-open');
+  var sluit = document.getElementById('menu-sluit');
+  if (!paneel || !open || !sluit) return;
+  var rest = document.querySelectorAll('body > header, body > main, body > footer');
+
+  function zet(aan) {
+    paneel.classList.toggle('open', aan);
+    open.setAttribute('aria-expanded', aan ? 'true' : 'false');
+    document.documentElement.style.overflow = aan ? 'hidden' : '';
+    // Wat onder het paneel ligt is niet te bereiken met Tab zolang het menu open is.
+    for (var i = 0; i < rest.length; i++) rest[i].inert = aan;
+    (aan ? sluit : open).focus();
+  }
+
+  open.addEventListener('click', function () { zet(true); });
+  sluit.addEventListener('click', function () { zet(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && paneel.classList.contains('open')) zet(false);
+  });
+  // Terug via de knop van de browser: het menu staat dan niet meer open.
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted && paneel.classList.contains('open')) zet(false);
+  });
+})();
+
+(function () {
+  // NOG INVULLEN: de formResponse-URL en de entry-ID's van het derde Google Form (bouwVerhuur in het bouwscript).
+  var ACTION = 'NOG_INVULLEN_FORMRESPONSE_URL';
+  var TEL_OK = /^\+?[0-9 ()-]{10,16}$/;
+  var form = document.getElementById('aanmeldform');
+  var tel = document.getElementById('tel');
+  var fout = document.getElementById('fout');
+  var bedankt = document.getElementById('bedankt');
+  var knop = form.querySelector('button[type="submit"]');
+  var knopTekst = knop.textContent;
+  var WACHTTIJD = 12000;
+
+  tel.addEventListener('input', function () { tel.setCustomValidity(''); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (knop.disabled) return;
+    fout.hidden = true;
+    tel.value = tel.value.trim();
+    tel.setCustomValidity(TEL_OK.test(tel.value) ? '' : 'Vul een telefoonnummer in, bijvoorbeeld 06 12 34 56 78.');
+    if (!form.reportValidity()) return;
+
+    var data = new URLSearchParams(new FormData(form));
+    data.append('fvv', '1');
+    data.append('pageHistory', '0');
+    knop.disabled = true;
+    knop.textContent = 'Versturen…';
+
+    var afgerond = false;
+    var timer = setTimeout(function () {
+      timer = null;
+      if (afgerond) return;
+      knop.disabled = false;
+      knop.textContent = knopTekst;
+      fout.textContent = 'Ik krijg geen bevestiging van het formulier. Je aanmelding is mogelijk toch aangekomen; bel of app me om het zeker te weten: 06 12 80 96 64.';
+      fout.hidden = false;
+    }, WACHTTIJD);
+
+    fetch(ACTION, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function () {
+        afgerond = true;
+        if (timer) { clearTimeout(timer); timer = null; }
+        fout.hidden = true;
+        form.hidden = true;
+        bedankt.hidden = false;
+        bedankt.scrollIntoView({ block: 'center' });
+        bedankt.focus({ preventScroll: true });
+      })
+      .catch(function () {
+        if (afgerond) return;
+        afgerond = true;
+        if (timer) { clearTimeout(timer); timer = null; }
+        knop.disabled = false;
+        knop.textContent = knopTekst;
+        fout.textContent = 'Versturen lukte niet. Probeer het nog eens, of bel of app me: 06 12 80 96 64.';
+        fout.hidden = false;
+      });
+  });
+})();
+</script>
+</body>
+</html>

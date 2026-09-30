@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deckshare · Betaalbaar varen op niveau</title>
-<meta name="description" content="Je boot de winter in met één aanspreekpunt, of een boot delen met een paar anderen. Deckshare, door Pepijn, booteigenaar.">
+<meta name="description" content="Je boot laten verhuren als je zelf weinig vaart, een boot delen met een paar anderen, of je boot de winter in met één aanspreekpunt. Deckshare, door Pepijn, booteigenaar.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://deckshare.nl/">
 <meta property="og:title" content="Deckshare · Betaalbaar varen op niveau">
-<meta property="og:description" content="Je boot de winter in met één aanspreekpunt, of een boot delen met een paar anderen. Kies wat bij je past.">
+<meta property="og:description" content="Je boot laten verhuren, een boot delen, of je boot de winter in met één aanspreekpunt. Kies wat bij je past.">
 <meta property="og:image" content="https://deckshare.nl/beeld/hero.jpg">
 <meta name="theme-color" content="#F5F2EA">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -75,7 +75,7 @@ a:hover { color: var(--ink-deep); }
 .icon { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
 .routes-wrap { max-width: 1280px; margin: 0 auto; padding: 72px 64px 64px; display: flex; flex-direction: column; gap: 28px; }
-.routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+.routes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
 .route { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1.5px solid var(--ink); }
 .route > .icon { width: 34px; height: 34px; }
 .route h3 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.2; text-wrap: balance; }
@@ -83,7 +83,7 @@ a:hover { color: var(--ink-deep); }
 .route .muted { font-size: 16px; color: var(--muted); }
 .where { margin: 0; display: flex; align-items: flex-start; gap: 10px; font-size: 16px; }
 .where .icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; stroke-width: 1.8; }
-.route .btn { align-self: flex-start; margin-top: 8px; }
+.route .btn { align-self: flex-start; margin-top: auto; }
 
 .about { background: var(--surface); border-top: 1px solid var(--line); }
 .about-inner { max-width: 1280px; margin: 0 auto; padding: 48px 64px; display: flex; align-items: flex-start; gap: 64px; }
@@ -172,25 +172,26 @@ a:hover { color: var(--ink-deep); }
         <p class="tagline">Betaalbaar varen op niveau.</p>
         <p class="hero-sub">Ik ben Pepijn, booteigenaar. Dit najaar begin ik voor mezelf, en ik begin klein. Kies wat bij je past.</p>
         <div class="hero-actions">
-          <a class="btn" href="/winterproces/">Winterproces regelen</a>
+          <a class="btn" href="/verhuur/">Boot verhuren</a>
           <a class="btn" href="/bootdelen/">Boot delen</a>
+          <a class="btn" href="/winterproces/">Winterproces regelen</a>
         </div>
       </div>
     </div>
   </section>
 
   <section class="routes-wrap" aria-labelledby="routes-titel">
-    <h2 class="label" id="routes-titel">Twee manieren om mee te doen</h2>
+    <h2 class="label" id="routes-titel">Drie manieren om mee te doen</h2>
     <div class="routes">
 
       <article class="route">
-        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 28V5h19"></path><path d="M22 5v8"></path><path d="M14 13h16l-3 5H17z"></path><path d="M13 24c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"></path><path d="M3 28h9"></path></svg>
-        <p class="kicker">Ontzorgen · start dit najaar</p>
-        <h3>Je boot de winter in, met één aanspreekpunt.</h3>
-        <p>Dit najaar regel ik dat je boot uit het water gaat, vervoerd wordt, onderhoud krijgt en gestald wordt. Bedrijven uit de regio doen het werk; jij hebt alleen met mij contact.</p>
-        <p class="muted">Voor het regelen betaal je in deze startperiode niets.</p>
-        <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland, ongeacht de lengte van de boot.</span></p>
-        <a class="btn" href="/winterproces/">Winterproces regelen</a>
+        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="12" r="6"></circle><path d="M15.5 15.5 28 28"></path><path d="M23 23l3-3M26 26l3-3"></path></svg>
+        <p class="kicker">Verhuur · op zoek naar de eerste boten</p>
+        <h3>Jij geeft de sleutel. Ik regel de rest.</h3>
+        <p>Vaar je maar een paar keer per jaar? Ik verhuur je boot op de dagen die jij opgeeft, en regel alles eromheen: huurders, overdracht, schoonmaak, verzekering en schade.</p>
+        <p class="muted">Jij bepaalt wanneer de boot beschikbaar is. Er is nog geen boot in de verhuur.</p>
+        <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland.</span></p>
+        <a class="btn" href="/verhuur/">Boot verhuren</a>
       </article>
 
       <article class="route">
@@ -203,6 +204,16 @@ a:hover { color: var(--ink-deep); }
         <a class="btn" href="/bootdelen/">Boot delen</a>
       </article>
 
+      <article class="route">
+        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 28V5h19"></path><path d="M22 5v8"></path><path d="M14 13h16l-3 5H17z"></path><path d="M13 24c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"></path><path d="M3 28h9"></path></svg>
+        <p class="kicker">Ontzorgen · start dit najaar</p>
+        <h3>Je boot de winter in, met één aanspreekpunt.</h3>
+        <p>Dit najaar regel ik dat je boot uit het water gaat, vervoerd wordt, onderhoud krijgt en gestald wordt. Bedrijven uit de regio doen het werk; jij hebt alleen met mij contact.</p>
+        <p class="muted">Voor het regelen betaal je in deze startperiode niets.</p>
+        <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland, ongeacht de lengte van de boot.</span></p>
+        <a class="btn" href="/winterproces/">Winterproces regelen</a>
+      </article>
+
     </div>
   </section>
 
@@ -210,13 +221,13 @@ a:hover { color: var(--ink-deep); }
     <div class="about-inner">
       <div class="about-text">
         <h2 class="label" id="over-titel">Wie ik ben</h2>
-        <p>Ik ben Pepijn, booteigenaar. De afgelopen weken heb ik tientallen booteigenaren gesproken en ondervraagd. Nu begin ik voor mezelf, en ik begin klein: ik help eigenaren met het winterproces, en ik zoek de eerste deelnemers voor het delen van een boot.</p>
+        <p>Ik ben Pepijn, booteigenaar. De afgelopen weken heb ik tientallen booteigenaren gesproken en ondervraagd. Nu begin ik voor mezelf, en ik begin klein: ik verhuur boten voor eigenaren die zelf weinig varen, ik zoek de eerste deelnemers voor het delen van een boot, en ik help eigenaren met het winterproces.</p>
         <a class="more" href="/over-mij/">Mijn boten tot nu toe</a>
       </div>
       <div class="about-call">
         <p class="label">Liever zelf bellen?</p>
         <p class="tel"><a href="tel:+31612809664">06 12 80 96 64</a></p>
-        <p class="note">Voor allebei, en voor vragen.</p>
+        <p class="note">Voor alle drie, en voor vragen.</p>
       </div>
     </div>
   </section>
