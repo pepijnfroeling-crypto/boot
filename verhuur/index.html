@@ -223,15 +223,15 @@ input::placeholder { color: var(--muted); }
       <form id="aanmeldform" novalidate>
         <div class="field">
           <label for="tel">Telefoonnummer</label>
-          <input id="tel" name="entry.NOG_INVULLEN_TEL" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 …" required>
+          <input id="tel" name="entry.270506142" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 …" required>
         </div>
         <div class="field">
           <label for="plek">Waar ligt je boot?</label>
-          <input id="plek" name="entry.NOG_INVULLEN_PLEK" type="text" placeholder="Plaats, haven of eigen steiger" required>
+          <input id="plek" name="entry.116403471" type="text" placeholder="Plaats, haven of eigen steiger" required>
         </div>
         <div class="field">
           <label for="lengte">Hoe lang is je boot?</label>
-          <select id="lengte" name="entry.NOG_INVULLEN_LENGTE" required>
+          <select id="lengte" name="entry.349188369" required>
             <option value="">Kies een lengte</option>
             <option>Korter dan 6 meter</option>
             <option>6 tot 7 meter</option>
@@ -242,7 +242,7 @@ input::placeholder { color: var(--muted); }
         </div>
         <div class="field">
           <label for="gebruik">Hoe vaak vaar je zelf per jaar?</label>
-          <select id="gebruik" name="entry.NOG_INVULLEN_GEBRUIK" required>
+          <select id="gebruik" name="entry.1610690495" required>
             <option value="">Kies een antwoord</option>
             <option>Minder dan 5 keer</option>
             <option>5 tot 15 keer</option>
@@ -251,7 +251,7 @@ input::placeholder { color: var(--muted); }
         </div>
         <div class="field">
           <label for="kanaal">Hoe kwam je op deze pagina?</label>
-          <select id="kanaal" name="entry.NOG_INVULLEN_KANAAL" required>
+          <select id="kanaal" name="entry.404836751" required>
             <option value="">Kies een antwoord</option>
             <option>Marktplaats</option>
             <option>Facebook</option>
@@ -324,8 +324,8 @@ input::placeholder { color: var(--muted); }
 })();
 
 (function () {
-  // NOG INVULLEN: de formResponse-URL en de entry-ID's van het derde Google Form (bouwVerhuur in het bouwscript).
-  var ACTION = 'NOG_INVULLEN_FORMRESPONSE_URL';
+  // Google Form 'Bel mij terug over het verhuren van mijn boot', aangemaakt door Pepijn op 2026-09-30.
+  var ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdL_lo7cCqfKJoJmSI4TaNlWEhbIYVtcI_jkpLpcenk95cKBA/formResponse';
   var TEL_OK = /^\+?[0-9 ()-]{10,16}$/;
   var form = document.getElementById('aanmeldform');
   var tel = document.getElementById('tel');
