@@ -41,10 +41,22 @@ a:hover { color: var(--ink-deep); }
 
 .top { background: var(--ground); border-bottom: 1px solid var(--line); }
 .top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
-.brand { margin: 0; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.brand { margin: 0 auto 0 0; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
 .brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
 .brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
 .top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+/* Menu: knop met drie streepjes linksboven; het paneel schuift van links over de hele pagina */
+.menu-btn { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; transition: background-color 0.15s; }
+.menu-btn:hover { background: var(--tint); }
+.menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.menu-panel { position: fixed; inset: 0; z-index: 10; overflow-y: auto; background: var(--ground); transform: translateX(-100%); visibility: hidden; transition: transform 0.3s ease, visibility 0s linear 0.3s; }
+.menu-panel.open { transform: none; visibility: visible; transition: transform 0.3s ease, visibility 0s; }
+@media (prefers-reduced-motion: reduce) { .menu-panel, .menu-panel.open { transition: none; } }
+.menu-list { max-width: 1280px; margin: 0 auto; padding: 32px 64px 64px; list-style: none; }
+.menu-list li { border-bottom: 1px solid var(--line); }
+.menu-list a { display: block; padding: 24px 0; text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(22px, 3vw, 38px); line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; }
+.menu-list a:hover, .menu-list a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 8px; }
 
 .wrap { max-width: 1280px; margin: 0 auto; padding: 56px 64px 64px; display: grid; grid-template-columns: minmax(0, 1fr) 440px; gap: 64px; align-items: start; }
 .content, .side { display: flex; flex-direction: column; }
@@ -124,6 +136,9 @@ input::placeholder { color: var(--muted); }
   .brand { flex-direction: column; gap: 2px; }
   .brand-name { font-size: 18px; }
   .top-call { display: none; }
+  .top-inner { flex-wrap: nowrap; gap: 16px; }
+  .menu-list { padding: 16px 20px 40px; }
+  .menu-list a { padding: 20px 0; font-size: 20px; }
   .wrap { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 28px 20px 40px; }
   .content { gap: 40px; }
   .eyebrow, .label, .kicker { font-size: 13px; }
@@ -144,10 +159,27 @@ input::placeholder { color: var(--muted); }
 
 <header class="top">
   <div class="top-inner">
+    <button class="menu-btn" type="button" id="menu-open" aria-label="Menu openen" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
     <p class="brand"><a class="brand-name" href="/">Deckshare</a><span class="brand-sub">door Pepijn, booteigenaar</span></p>
     <p class="top-call">Liever zelf bellen? <a href="tel:+31612809664">06 12 80 96 64</a></p>
   </div>
 </header>
+
+<nav class="menu-panel" id="menu" aria-label="Menu">
+  <div class="top">
+    <div class="top-inner">
+      <button class="menu-btn" type="button" id="menu-sluit" aria-label="Menu sluiten"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      <p class="brand"><a class="brand-name" href="/">Deckshare</a></p>
+    </div>
+  </div>
+  <ul class="menu-list">
+    <li><a href="/">Homepagina</a></li>
+    <li><a href="/verhuur/">Particuliere turnkey verhuur</a></li>
+    <li><a href="/bootdelen/">Boot delen</a></li>
+    <li><a href="/winterproces/" aria-current="page">Winterproces uit handen geven</a></li>
+    <li><a href="/over-mij/">Over mij</a></li>
+  </ul>
+</nav>
 
 <main class="wrap">
   <div class="content">
@@ -271,6 +303,33 @@ input::placeholder { color: var(--muted); }
 </footer>
 
 <script>
+(function () {
+  var paneel = document.getElementById('menu');
+  var open = document.getElementById('menu-open');
+  var sluit = document.getElementById('menu-sluit');
+  if (!paneel || !open || !sluit) return;
+  var rest = document.querySelectorAll('body > header, body > main, body > footer');
+
+  function zet(aan) {
+    paneel.classList.toggle('open', aan);
+    open.setAttribute('aria-expanded', aan ? 'true' : 'false');
+    document.documentElement.style.overflow = aan ? 'hidden' : '';
+    // Wat onder het paneel ligt is niet te bereiken met Tab zolang het menu open is.
+    for (var i = 0; i < rest.length; i++) rest[i].inert = aan;
+    (aan ? sluit : open).focus();
+  }
+
+  open.addEventListener('click', function () { zet(true); });
+  sluit.addEventListener('click', function () { zet(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && paneel.classList.contains('open')) zet(false);
+  });
+  // Terug via de knop van de browser: het menu staat dan niet meer open.
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted && paneel.classList.contains('open')) zet(false);
+  });
+})();
+
 (function () {
   var ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLScsJsROzSIAOufbTEjwbZl8H-5f_c2JbZFGHO3rdaHvFGnxcA/formResponse';
   var TEL_OK = /^\+?[0-9 ()-]{10,16}$/;
