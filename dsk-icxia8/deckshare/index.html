@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Deckshare · dit is Deckshare</title>
+<meta name="theme-color" content="#F5F2EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Saira:wdth,wght@125,500;125,600&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground: #F5F2EA;
+  --surface: #FFFFFF;
+  --ink: #1E3A2F;
+  --ink-deep: #113728;
+  --muted: #5B645D;
+  --line: #DDD6C6;
+  --tint: #B7D3C2;
+  --display: 'Saira', 'Arial', sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
+a { color: var(--ink); }
+a:hover { color: var(--ink-deep); }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+.top { position: relative; z-index: 2; background: var(--ground); border-bottom: 1px solid var(--line); }
+.top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+.brand { margin: 0 auto 0 0; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
+.brand-sub, .top-call { font-size: 15px; color: var(--muted); margin: 0; }
+.top-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+/* Menu: knop met drie streepjes linksboven; het paneel schuift van links over de hele pagina */
+.menu-btn { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; transition: background-color 0.15s; }
+.menu-btn:hover { background: var(--tint); }
+.menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.menu-panel { position: fixed; inset: 0; z-index: 10; overflow-y: auto; background: var(--ground); transform: translateX(-100%); visibility: hidden; transition: transform 0.3s ease, visibility 0s linear 0.3s; }
+.menu-panel.open { transform: none; visibility: visible; transition: transform 0.3s ease, visibility 0s; }
+@media (prefers-reduced-motion: reduce) { .menu-panel, .menu-panel.open { transition: none; } }
+.menu-list { max-width: 1280px; margin: 0 auto; padding: 32px 64px 64px; list-style: none; }
+.menu-list li { border-bottom: 1px solid var(--line); }
+.menu-list a { display: block; padding: 24px 0; text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(22px, 3vw, 38px); line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; }
+.menu-list a:hover, .menu-list a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 8px; }
+
+/* Hero: foto achter een waas van gebroken wit; bij scrollen gaat de tekst sneller omhoog dan de pagina, de foto langzamer */
+.hero { position: relative; overflow: hidden; min-height: 680px; display: flex; align-items: center; padding: 96px 64px; background: var(--ground); }
+.hero-bg { position: absolute; inset: 0; will-change: transform; }
+.hero-media { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 72% 55%; }
+.hero-veil { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(245, 242, 234, 0.92) 0%, rgba(245, 242, 234, 0.84) 42%, rgba(245, 242, 234, 0.45) 100%); }
+.hero-inner { position: relative; z-index: 1; width: 100%; max-width: 1152px; margin: 0 auto; }
+.hero-panel { max-width: 680px; display: flex; flex-direction: column; gap: 20px; will-change: transform, opacity; }
+.eyebrow, .label, .kicker { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.kicker { font-size: 13px; letter-spacing: 0.12em; }
+.wordmark { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(48px, 6vw, 80px); line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; }
+.tagline { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.25; text-wrap: balance; }
+.hero-sub { margin: 0; font-size: 19px; line-height: 1.5; max-width: 32em; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 26px; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; transition: background-color 0.15s; }
+.btn:hover { background: var(--tint); color: var(--ink); }
+
+.icon { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.routes-wrap { max-width: 1280px; margin: 0 auto; padding: 72px 64px 64px; display: flex; flex-direction: column; gap: 28px; }
+.routes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.route { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1.5px solid var(--ink); }
+.route > .icon { width: 34px; height: 34px; }
+.route h3 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.2; text-wrap: balance; }
+.route p { margin: 0; font-size: 17px; line-height: 1.55; }
+.route .muted { font-size: 16px; color: var(--muted); }
+.where { margin: 0; display: flex; align-items: flex-start; gap: 10px; font-size: 16px; }
+.where .icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; stroke-width: 1.8; }
+.route .btn { align-self: flex-start; margin-top: auto; }
+
+.about { background: var(--surface); border-top: 1px solid var(--line); }
+.about-inner { max-width: 1280px; margin: 0 auto; padding: 48px 64px; display: flex; align-items: flex-start; gap: 64px; }
+.about-text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.about-text p { margin: 0; font-size: 17px; line-height: 1.55; max-width: 42em; }
+.about-text .more { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 4px; }
+.about-call { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+.about-call .tel { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 28px; line-height: 1.1; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+.about-call .tel a { text-decoration: none; }
+.about-call .note { margin: 0; font-size: 15px; color: var(--muted); }
+
+.foot { background: var(--ground); border-top: 1px solid var(--line); }
+.foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+@media (max-width: 960px) {
+  body { font-size: 17px; }
+  .top-inner { padding: 14px 20px; }
+  .brand { flex-direction: column; gap: 2px; }
+  .brand-name { font-size: 18px; }
+  .top-call { display: none; }
+  .top-inner { flex-wrap: nowrap; gap: 16px; }
+  .menu-list { padding: 16px 20px 40px; }
+  .menu-list a { padding: 20px 0; font-size: 20px; }
+  .hero { min-height: 0; padding: 72px 20px 56px; }
+  .hero-veil { background: rgba(245, 242, 234, 0.86); }
+  .hero-media { object-position: 80% 50%; }
+  .hero-panel { gap: 16px; }
+  .eyebrow, .label, .kicker { font-size: 13px; }
+  .wordmark { font-size: clamp(34px, 10vw, 56px); letter-spacing: 0.1em; }
+  .tagline { font-size: 21px; }
+  .hero-sub { font-size: 17px; }
+  .hero-actions { flex-direction: column; gap: 12px; }
+  .btn { height: 54px; width: 100%; }
+  .routes-wrap { padding: 40px 20px 44px; gap: 22px; }
+  .routes { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .route { gap: 10px; padding-top: 16px; }
+  .route > .icon { width: 30px; height: 30px; }
+  .route h3 { font-size: 23px; }
+  .route p { font-size: 16px; }
+  .route .muted, .where { font-size: 15px; }
+  .about-inner { flex-direction: column; gap: 18px; padding: 32px 20px; }
+  .about-text p { font-size: 16px; }
+  .about-call { width: auto; padding-top: 16px; border-top: 1px solid var(--line); }
+  .about-call .tel { font-size: 26px; }
+  .foot-inner { padding: 18px 20px; flex-direction: column; }
+}
+body{margin:0}
+a{color:#1E3A2F}a:hover{color:#113728}
+.ds-btn:hover{background-color:#B7D3C2!important}
+@keyframes ds-step{0%,22%{opacity:1}25%,97%{opacity:.45}100%{opacity:1}}
+@keyframes ds-push{0%,3%{transform:translateX(-5px);opacity:.35}10%,22%{transform:translateX(3px);opacity:1}25%,100%{transform:translateX(-5px);opacity:.35}}
+@keyframes ds-get{0%,9%{background-color:#F5F2EA}13%,23%{background-color:#B7D3C2}26%,100%{background-color:#F5F2EA}}
+@keyframes ds-pop{0%,8%{transform:scale(.5);opacity:0}13%{transform:scale(1.08);opacity:1}17%,100%{transform:scale(1);opacity:1}}
+@keyframes ds-drawer{from{transform:translateX(32px);opacity:0}to{transform:none;opacity:1}}
+.ds-step{animation:ds-step 12s linear infinite}
+.ds-push{animation:ds-push 12s ease-in-out infinite}
+.ds-get{animation:ds-get 12s ease-in-out infinite}
+.ds-pop{animation:ds-pop 12s ease-out infinite}
+.ds-drawer{animation:ds-drawer .28s ease-out}
+.ds-s1{animation-delay:0s}.ds-s2{animation-delay:-9s}.ds-s3{animation-delay:-6s}.ds-s4{animation-delay:-3s}
+.ds-fx,.ds-fx-last{view-timeline-name:--ds-t;view-timeline-axis:block}
+.ds-fx>section,.ds-fx-last>section{overflow:clip}
+@keyframes ds-in-l{0%{transform:translateX(-40vw);opacity:0}26%,46%{transform:none;opacity:1}62%,100%{transform:translateX(-40vw);opacity:0}}
+@keyframes ds-in-r{0%{transform:translateX(40vw);opacity:0}26%,46%{transform:none;opacity:1}62%,100%{transform:translateX(40vw);opacity:0}}
+@keyframes ds-in-l-end{0%{transform:translateX(-40vw);opacity:0}26%,100%{transform:none;opacity:1}}
+@keyframes ds-in-r-end{0%{transform:translateX(40vw);opacity:0}26%,100%{transform:none;opacity:1}}
+@supports (animation-timeline: view()){
+.ds-fx>section>div>*,.ds-fx-last>section>div>*{animation:ds-in-l linear both;animation-timeline:--ds-t;animation-range:cover 0% cover 100%}
+.ds-fx>section>div>:nth-child(even){animation-name:ds-in-r}
+.ds-fx-last>section>div>*{animation-name:ds-in-l-end}
+.ds-fx-last>section>div>:nth-child(even){animation-name:ds-in-r-end}
+}
+@media (prefers-reduced-motion: reduce){.ds-fx>section>div>*,.ds-fx-last>section>div>*{animation:none!important}}
+@media (max-height: 900px){.ds-fx>section,.ds-fx-last>section{padding-top:24px!important;padding-bottom:24px!important}}
+@media (max-height: 780px),(max-width: 1180px){.ds-fx,.ds-fx-last{height:auto!important}.ds-fx>section,.ds-fx-last>section{position:relative!important;top:0!important}.ds-fx>section>div>*,.ds-fx-last>section>div>*{animation:none!important}}
+.ds-play:hover .ds-step,.ds-play:hover .ds-push,.ds-play:hover .ds-get,.ds-play:hover .ds-pop{animation-play-state:paused}
+@media (prefers-reduced-motion: reduce){.ds-step,.ds-push,.ds-get,.ds-pop,.ds-drawer{animation:none!important}}
+/* Conceptpagina: lint vast bovenaan, panelen eronder */
+:root {
+  --stack-pos: sticky; --panel-top: 81px; --panel-h: calc(100vh - 81px);
+  --img-pos: 72% 55%;
+  --veil: linear-gradient(90deg, rgba(245, 242, 234, 0.95) 0%, rgba(245, 242, 234, 0.88) 48%, rgba(245, 242, 234, 0.5) 100%);
+  --btn-flex: 0 0 auto; --frame-min: 152px; --track-h: 200vh; --track-h-last: 100vh;
+}
+.top { position: sticky; top: 0; z-index: 30; }
+.top-inner { height: 80px; padding-top: 0 !important; padding-bottom: 0 !important; }
+.menu-panel { z-index: 40; }
+@supports not (animation-timeline: view()) { :root { --track-h: auto; --track-h-last: auto; } }
+@media (prefers-reduced-motion: reduce) { :root { --track-h: auto; --track-h-last: auto; } }
+@media (max-height: 780px), (max-width: 1180px) { :root { --track-h: auto; --track-h-last: auto; --stack-pos: relative; --panel-top: 0px; } }
+@media (max-width: 960px) {
+  :root { --panel-h: auto; --img-pos: 80% 50%; --veil: rgba(245, 242, 234, 0.88); --btn-flex: 1 1 100%; --frame-min: 0px; }
+}
+/* Vensters met meer informatie */
+dialog.ds-dlg { margin: 0 0 0 auto; padding: 0; border: 0; border-left: 1px solid #DDD6C6; width: min(560px, 100%); max-width: 100%; height: 100%; max-height: 100%; background: #FFFFFF; color: #1E3A2F; }
+dialog.ds-dlg[open] { animation: ds-drawer .28s ease-out; }
+dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
+.ds-dlg-in { box-sizing: border-box; min-height: 100%; padding: 24px clamp(20px, 3vw, 40px) 48px; display: flex; flex-direction: column; gap: 20px; }
+@media (prefers-reduced-motion: reduce) { dialog.ds-dlg[open] { animation: none; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <button class="menu-btn" type="button" id="menu-open" aria-label="Menu openen" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+    <p class="brand"><a class="brand-name" href="/">Deckshare</a><span class="brand-sub">Door Pepijn Froeling</span></p>
+    <p class="top-call">Liever zelf bellen? <a href="tel:+31612809664">06 12 80 96 64</a></p>
+  </div>
+</header>
+
+<nav class="menu-panel" id="menu" aria-label="Menu">
+  <div class="top">
+    <div class="top-inner">
+      <button class="menu-btn" type="button" id="menu-sluit" aria-label="Menu sluiten"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      <p class="brand"><a class="brand-name" href="/">Deckshare</a></p>
+    </div>
+  </div>
+  <ul class="menu-list">
+    <li><a href="/">Homepagina</a></li>
+    <li><a href="/verhuur/">Particuliere turnkey verhuur</a></li>
+    <li><a href="/bootdelen/">Boot delen</a></li>
+    <li><a href="/winterproces/">Winterproces uit handen geven</a></li>
+    <li><a href="/over-mij/">Over mij</a></li>
+  </ul>
+</nav>
+<main>
+<section aria-labelledby="uitleg-titel" style="background: #F5F2EA">
+<div style="max-width: 1152px; margin: 0 auto; box-sizing: border-box; padding: clamp(48px, 6vw, 88px) clamp(20px, 4.5vw, 64px) clamp(40px, 5vw, 64px); display: flex; flex-direction: column; gap: 22px">
+<a href="/dsk-icxia8/#p2" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 700; font-size: 16px; text-decoration: underline; text-underline-offset: 4px"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 19V5"></path><path d="M6 11l6-6 6 6"></path></svg>Terug naar het overzicht</a>
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Meer informatie · 01</p>
+<h1 id="uitleg-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(38px, 5vw, 68px); line-height: 1.02; letter-spacing: 0.01em">Dit is Deckshare.</h1>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 36em">Hier lees je hoe samen een boot kopen werkt, hoe het samenbrengen gaat en wie er achter Deckshare zit.</p>
+<nav aria-label="Op deze pagina" style="display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5B645D">Op deze pagina</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px"><a href="#basis" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid #1E3A2F; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700">Samen een boot kopen</a><a href="#samenbrengen" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid #1E3A2F; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700">Zo gaat het samenbrengen</a><a href="#waarom" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid #1E3A2F; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700">Waarom Deckshare</a><a href="#ook" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid #1E3A2F; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700">Ook bij Deckshare</a></div>
+</nav>
+</div>
+</section>
+
+<section id="basis" style="scroll-margin-top: 96px; background: #FFFFFF; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1152px; margin: 0 auto; box-sizing: border-box; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Het basisprincipe</p>
+<h2 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.08; text-wrap: balance">Koop samen een boot.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px 64px">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 36em">Deckshare brengt mensen bij elkaar die samen een boot willen kopen. Zo drukken jullie de kosten: de aankoop en de vaste lasten draag je niet alleen.</p>
+<h3 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(19px, 1.5vw, 22px); line-height: 1.25">Je koopt een deel van de boot</h3>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 36em">Bijvoorbeeld een derde, de helft of twee derde. Met je deel word je mede-eigenaar van de boot.</p>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 40px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; justify-content: center; gap: 20px">
+<p style="margin: 0; font-size: 15px; line-height: 1.3; color: #5B645D">Jouw deel van de boot</p>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>Een derde van de boot</span><b>1/3</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>De helft van de boot</span><b>1/2</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>Twee derde van de boot</span><b>2/3</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="samenbrengen" style="scroll-margin-top: 96px; background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1152px; margin: 0 auto; box-sizing: border-box; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Meedoen</p>
+<h2 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.08; text-wrap: balance">Zo gaat het samenbrengen.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px 64px">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 36em">Meld je aan als je samen met anderen een boot wilt kopen. Ik bel je binnen twee werkdagen terug.</p>
+<a href="/bootdelen/" class="ds-btn" style="align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase">Meld je aan</a>
+</div>
+<ol style="flex: 1 1 420px; min-width: 0; margin: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 40px); list-style: none; background: #FFFFFF; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; gap: 0">
+<li style="display: flex; align-items: flex-start; gap: 16px; padding: 0 0 18px; border-bottom: 1px solid #DDD6C6"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 40px; height: 40px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid #1E3A2F; background: #FFFFFF; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 17px">1</span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 19px; line-height: 1.3">Je meldt je aan</span><span style="font-size: 16px; line-height: 1.45; color: #5B645D">Vul het formulier in, of bel of app me direct.</span></span></li>
+<li style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 1px solid #DDD6C6"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 40px; height: 40px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid #1E3A2F; background: #FFFFFF; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 17px">2</span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 19px; line-height: 1.3">Een kort gesprek</span><span style="font-size: 16px; line-height: 1.45; color: #5B645D">Wat voor boot, waar, en hoe vaak je wilt varen.</span></span></li>
+<li style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 0 0"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 40px; height: 40px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid #1E3A2F; background: #FFFFFF; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 17px">3</span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 19px; line-height: 1.3">Samen verder</span><span style="font-size: 16px; line-height: 1.45; color: #5B645D">Past jouw wens bij die van anderen, dan breng ik jullie met elkaar in contact.</span></span></li>
+</ol>
+</div>
+</div>
+</section>
+
+<section id="waarom" style="scroll-margin-top: 96px; background: #FFFFFF; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1152px; margin: 0 auto; box-sizing: border-box; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Over Deckshare</p>
+<h2 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.08; text-wrap: balance">Waarom Deckshare.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px 64px">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 36em">Een eigen boot is mooi, maar wie maar een paar keer per jaar vaart, betaalt het hele jaar door: liggeld, stalling, verzekering en onderhoud.</p>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 36em">Ik ben Pepijn Froeling, booteigenaar en oprichter van Deckshare. Deckshare is ontstaan uit mijn eigen situatie: een boot die te duur was en te veel onderhoud vroeg voor de keren dat we ermee voeren.</p>
+<a href="/over-mij/" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 4px">Over mij</a>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 40px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; justify-content: center; gap: 12px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5B645D">Vragen of twijfels?</p><p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.1; letter-spacing: 0.04em; font-variant-numeric: tabular-nums"><a href="tel:+31612809664" style="text-decoration: none">06 12 80 96 64</a></p><p style="margin: 0; font-size: 16px; color: #5B645D">Bel of app me direct.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="ook" style="scroll-margin-top: 96px; background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1152px; margin: 0 auto; box-sizing: border-box; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Ook bij Deckshare</p>
+<h2 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.08; text-wrap: balance">Verhuur en winterproces.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px 24px"><div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; background: #FFFFFF; border: 1px solid #DDD6C6; border-radius: 4px"><p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5B645D">Verhuur</p><p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 19px; line-height: 1.3">Jij geeft de sleutel. Ik regel de rest.</p><a href="/verhuur/" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 4px">Boot verhuren</a></div><div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; background: #FFFFFF; border: 1px solid #DDD6C6; border-radius: 4px"><p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5B645D">Ontzorgen</p><p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 19px; line-height: 1.3">Je boot de winter in, met één aanspreekpunt.</p><a href="/winterproces/" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 17px; text-decoration: underline; text-underline-offset: 4px">Winterproces regelen</a></div></div>
+</div>
+</section>
+
+<section aria-labelledby="verder-titel" style="background: #FFFFFF; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1152px; margin: 0 auto; box-sizing: border-box; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 24px">
+<div style="box-sizing: border-box; padding: clamp(24px, 3vw, 40px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">02 · Naar keuze</p>
+<h2 id="verder-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15; text-wrap: balance">Waarbij Deckshare je kan ondersteunen.</h2>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 36em">Na de aankoop kies je zelf waar Deckshare je bij helpt: ligplaats, verzekering, onderhoud en het vaarschema.</p>
+</div>
+<a href="/dsk-icxia8/ondersteuning/" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 52px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
+</div>
+<a href="/dsk-icxia8/#p2" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 700; font-size: 16px; text-decoration: underline; text-underline-offset: 4px"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 19V5"></path><path d="M6 11l6-6 6 6"></path></svg>Terug naar het overzicht</a>
+</div>
+</section>
+</main>
+<footer style="position: relative; z-index: 10; background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding: 20px clamp(20px, 4.5vw, 64px); font-size: 14px; color: #5B645D">Deckshare</div>
+</footer>
+
+<script>
+(function () {
+  var paneel = document.getElementById('menu');
+  var open = document.getElementById('menu-open');
+  var sluit = document.getElementById('menu-sluit');
+  if (!paneel || !open || !sluit) return;
+  var rest = document.querySelectorAll('body > header, body > main, body > footer');
+
+  function zet(aan) {
+    paneel.classList.toggle('open', aan);
+    open.setAttribute('aria-expanded', aan ? 'true' : 'false');
+    document.documentElement.style.overflow = aan ? 'hidden' : '';
+    // Wat onder het paneel ligt is niet te bereiken met Tab zolang het menu open is.
+    for (var i = 0; i < rest.length; i++) rest[i].inert = aan;
+    (aan ? sluit : open).focus();
+  }
+
+  open.addEventListener('click', function () { zet(true); });
+  sluit.addEventListener('click', function () { zet(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && paneel.classList.contains('open')) zet(false);
+  });
+  // Terug via de knop van de browser: het menu staat dan niet meer open.
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted && paneel.classList.contains('open')) zet(false);
+  });
+})();
+
+(function () {
+  document.querySelectorAll('[data-open]').forEach(function (knop) {
+    knop.addEventListener('click', function () {
+      var d = document.getElementById('info-' + knop.getAttribute('data-open'));
+      if (d && d.showModal) d.showModal();
+    });
+  });
+  // Klik naast het venster sluit het.
+  document.querySelectorAll('dialog.ds-dlg').forEach(function (d) {
+    d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+  });
+})();
+</script>
+</body>
+</html>
