@@ -407,11 +407,9 @@ dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
 <div style="max-width: 680px; display: flex; flex-direction: column; gap: 20px">
 <h1 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(38px, 6vw, 80px); line-height: 1; letter-spacing: 0.12em; text-transform: uppercase">Deckshare</h1>
 <p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: clamp(21px, 2vw, 28px); line-height: 1.25; text-wrap: balance">Betaalbaar varen op niveau.</p>
-<p style="margin: 0; font-size: clamp(17px, 1.35vw, 19px); line-height: 1.5; max-width: 34em">Vaar je maar een paar keer per jaar? Of is een eigen boot te duur voor de keren dat je gaat?</p>
 <p style="margin: 0; font-size: clamp(17px, 1.35vw, 19px); font-weight: 700; line-height: 1.5; max-width: 34em">Koop samen met anderen een boot en deel de kosten.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px">
-<a href="#uitleg" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Ga naar de uitleg</a>
-<a href="#uitleg" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Zo werkt het</a>
+<a href="#uitleg" data-uf-start class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Ga naar de uitleg</a>
 <a href="/bootdelen/" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Meld je aan</a>
 </div>
 <a href="/dit-is-deckshare/" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #1E3A2F; font-family: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif; font-size: 17px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer over Deckshare</a>
@@ -847,14 +845,30 @@ dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
   requestAnimationFrame(tik);
 
   // De eerste dia begint pas als hij in beeld is.
-  if (local < durs[cur]) {
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (items) {
-        if (items.some(function (it) { return it.isIntersecting; })) { gestart = true; io.disconnect(); waakhond(); }
-      }, { threshold: 0.4 });
-      io.observe(stage);
-    } else gestart = true;
+  var io = null;
+  function wachtOpBeeld() {
+    if (io) io.disconnect();
+    if (!('IntersectionObserver' in window)) { gestart = true; return; }
+    io = new IntersectionObserver(function (items) {
+      if (items.some(function (it) { return it.isIntersecting; })) { gestart = true; io.disconnect(); waakhond(); }
+    }, { threshold: 0.4 });
+    io.observe(stage);
   }
+  if (local < durs[cur]) wachtOpBeeld();
+
+  // "Ga naar de uitleg" in de hero: naar de dia's springen en de uitleg vanaf dia 1 afspelen.
+  document.querySelectorAll('[data-uf-start]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      cur = 0;
+      uit = -1;
+      schuift = false;
+      gestart = false;
+      local = reduce ? durs[0] : 0;
+      balkBij();
+      teken();
+      if (!reduce) wachtOpBeeld();
+    });
+  });
 })();
 </script>
 <script data-goatcounter="https://deckshare.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
