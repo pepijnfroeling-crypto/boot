@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deckshare · Betaalbaar varen op niveau</title>
-<meta name="description" content="Je boot laten verhuren als je zelf weinig vaart, een boot delen met een paar anderen, of je boot de winter in met één aanspreekpunt. Deckshare.">
+<meta name="theme-color" content="#F5F2EA">
+<meta name="description" content="Vaar je maar een paar keer per jaar? Of is een eigen boot te duur voor de keren dat je gaat? Koop samen met anderen een boot en deel de kosten.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://deckshare.nl/">
 <meta property="og:title" content="Deckshare · Betaalbaar varen op niveau">
-<meta property="og:description" content="Je boot laten verhuren, een boot delen, of je boot de winter in met één aanspreekpunt. Kies wat bij je past.">
+<meta property="og:description" content="Koop samen met anderen een boot en deel de kosten.">
 <meta property="og:image" content="https://deckshare.nl/beeld/hero.jpg">
-<meta name="theme-color" content="#F5F2EA">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,6 +130,59 @@ a:hover { color: var(--ink-deep); }
   .about-call .tel { font-size: 26px; }
   .foot-inner { padding: 18px 20px; flex-direction: column; }
 }
+body{margin:0}
+a{color:#1E3A2F}a:hover{color:#113728}
+.ds-btn:hover{background-color:#B7D3C2!important}
+@keyframes ds-step{0%,22%{opacity:1}25%,97%{opacity:.45}100%{opacity:1}}
+@keyframes ds-push{0%,3%{transform:translateX(-5px);opacity:.35}10%,22%{transform:translateX(3px);opacity:1}25%,100%{transform:translateX(-5px);opacity:.35}}
+@keyframes ds-get{0%,9%{background-color:#F5F2EA}13%,23%{background-color:#B7D3C2}26%,100%{background-color:#F5F2EA}}
+@keyframes ds-pop{0%,8%{transform:scale(.5);opacity:0}13%{transform:scale(1.08);opacity:1}17%,100%{transform:scale(1);opacity:1}}
+@keyframes ds-drawer{from{transform:translateX(32px);opacity:0}to{transform:none;opacity:1}}
+.ds-step{animation:ds-step 12s linear infinite}
+.ds-push{animation:ds-push 12s ease-in-out infinite}
+.ds-get{animation:ds-get 12s ease-in-out infinite}
+.ds-pop{animation:ds-pop 12s ease-out infinite}
+.ds-drawer{animation:ds-drawer .28s ease-out}
+.ds-s1{animation-delay:0s}.ds-s2{animation-delay:-9s}.ds-s3{animation-delay:-6s}.ds-s4{animation-delay:-3s}
+.ds-fx,.ds-fx-last{view-timeline-name:--ds-t;view-timeline-axis:block}
+.ds-fx>section,.ds-fx-last>section{overflow:clip}
+@keyframes ds-in-l{0%{transform:translateX(-40vw);opacity:0}26%,46%{transform:none;opacity:1}62%,100%{transform:translateX(-40vw);opacity:0}}
+@keyframes ds-in-r{0%{transform:translateX(40vw);opacity:0}26%,46%{transform:none;opacity:1}62%,100%{transform:translateX(40vw);opacity:0}}
+@keyframes ds-in-l-end{0%{transform:translateX(-40vw);opacity:0}26%,100%{transform:none;opacity:1}}
+@keyframes ds-in-r-end{0%{transform:translateX(40vw);opacity:0}26%,100%{transform:none;opacity:1}}
+@supports (animation-timeline: view()){
+.ds-fx>section>div>*,.ds-fx-last>section>div>*{animation:ds-in-l linear both;animation-timeline:--ds-t;animation-range:cover 0% cover 100%}
+.ds-fx>section>div>:nth-child(even){animation-name:ds-in-r}
+.ds-fx-last>section>div>*{animation-name:ds-in-l-end}
+.ds-fx-last>section>div>:nth-child(even){animation-name:ds-in-r-end}
+}
+@media (prefers-reduced-motion: reduce){.ds-fx>section>div>*,.ds-fx-last>section>div>*{animation:none!important}}
+@media (max-height: 900px){.ds-fx>section,.ds-fx-last>section{padding-top:24px!important;padding-bottom:24px!important}}
+@media (max-height: 780px),(max-width: 1180px){.ds-fx,.ds-fx-last{height:auto!important}.ds-fx>section,.ds-fx-last>section{position:relative!important;top:0!important}.ds-fx>section>div>*,.ds-fx-last>section>div>*{animation:none!important}}
+.ds-play:hover .ds-step,.ds-play:hover .ds-push,.ds-play:hover .ds-get,.ds-play:hover .ds-pop{animation-play-state:paused}
+@media (prefers-reduced-motion: reduce){.ds-step,.ds-push,.ds-get,.ds-pop,.ds-drawer{animation:none!important}}
+/* Conceptpagina: lint vast bovenaan, panelen eronder */
+:root {
+  --stack-pos: sticky; --panel-top: 81px; --panel-h: calc(100vh - 81px);
+  --img-pos: 72% 55%;
+  --veil: linear-gradient(90deg, rgba(245, 242, 234, 0.95) 0%, rgba(245, 242, 234, 0.88) 48%, rgba(245, 242, 234, 0.5) 100%);
+  --btn-flex: 0 0 auto; --frame-min: 152px; --track-h: 200vh; --track-h-last: 100vh;
+}
+.top { position: sticky; top: 0; z-index: 30; }
+.top-inner { height: 80px; padding-top: 0 !important; padding-bottom: 0 !important; }
+.menu-panel { z-index: 40; }
+@supports not (animation-timeline: view()) { :root { --track-h: auto; --track-h-last: auto; } }
+@media (prefers-reduced-motion: reduce) { :root { --track-h: auto; --track-h-last: auto; } }
+@media (max-height: 780px), (max-width: 1180px) { :root { --track-h: auto; --track-h-last: auto; --stack-pos: relative; --panel-top: 0px; } }
+@media (max-width: 960px) {
+  :root { --panel-h: auto; --img-pos: 80% 50%; --veil: rgba(245, 242, 234, 0.88); --btn-flex: 1 1 100%; --frame-min: 0px; }
+}
+/* Vensters met meer informatie */
+dialog.ds-dlg { margin: 0 0 0 auto; padding: 0; border: 0; border-left: 1px solid #DDD6C6; width: min(560px, 100%); max-width: 100%; height: 100%; max-height: 100%; background: #FFFFFF; color: #1E3A2F; }
+dialog.ds-dlg[open] { animation: ds-drawer .28s ease-out; }
+dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
+.ds-dlg-in { box-sizing: border-box; min-height: 100%; padding: 24px clamp(20px, 3vw, 40px) 48px; display: flex; flex-direction: column; gap: 20px; }
+@media (prefers-reduced-motion: reduce) { dialog.ds-dlg[open] { animation: none; } }
 </style>
 </head>
 <body>
@@ -150,93 +203,136 @@ a:hover { color: var(--ink-deep); }
     </div>
   </div>
   <ul class="menu-list">
-    <li><a href="/" aria-current="page">Homepagina</a></li>
-    <li><a href="/verhuur/">Particuliere turnkey verhuur</a></li>
+    <li><a href="/">Homepagina</a></li>
     <li><a href="/bootdelen/">Boot delen</a></li>
-    <li><a href="/winterproces/">Winterproces uit handen geven</a></li>
     <li><a href="/over-mij/">Over mij</a></li>
   </ul>
 </nav>
 
 <main>
 
-  <section class="hero" aria-label="Introductie">
-    <div class="hero-bg" aria-hidden="true">
-      <img class="hero-media" src="beeld/hero.jpg" srcset="beeld/hero-900.jpg 900w, beeld/hero.jpg 1600w, beeld/hero-2560.jpg 2560w" sizes="100vw" alt="" width="1600" height="893" fetchpriority="high">
-    </div>
-    <div class="hero-veil" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <div class="hero-panel">
-        <h1 class="wordmark">Deckshare</h1>
-        <p class="tagline">Betaalbaar varen op niveau.</p>
-        <p class="hero-sub">Ik ben Pepijn, booteigenaar. Dit najaar begin ik voor mezelf, en ik begin klein. Kies wat bij je past.</p>
-        <div class="hero-actions">
-          <a class="btn" href="/verhuur/">Boot verhuren</a>
-          <a class="btn" href="/bootdelen/">Boot delen</a>
-          <a class="btn" href="/winterproces/">Winterproces regelen</a>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="ds-fx" style="height: var(--track-h)">
+<section id="p1" aria-label="Introductie" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 1; overflow: hidden; min-height: var(--panel-h); display: flex; align-items: center; box-sizing: border-box; padding: clamp(56px, 6.5vw, 96px) clamp(20px, 4.5vw, 64px); background: #F5F2EA">
+<img src="/beeld/hero.jpg" srcset="/beeld/hero-900.jpg 900w, /beeld/hero.jpg 1600w, /beeld/hero-2560.jpg 2560w" sizes="100vw" alt="" width="1600" height="893" fetchpriority="high" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--img-pos)">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: var(--veil)"></div>
+<div style="position: relative; width: 100%; max-width: 1152px; margin: 0 auto">
+<div style="max-width: 680px; display: flex; flex-direction: column; gap: 20px">
+<h1 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(38px, 6vw, 80px); line-height: 1; letter-spacing: 0.12em; text-transform: uppercase">Deckshare</h1>
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: clamp(21px, 2vw, 28px); line-height: 1.25; text-wrap: balance">Betaalbaar varen op niveau.</p>
+<p style="margin: 0; font-size: clamp(17px, 1.35vw, 19px); line-height: 1.5; max-width: 34em">Vaar je maar een paar keer per jaar? Of is een eigen boot te duur voor de keren dat je gaat?</p>
+<p style="margin: 0; font-size: clamp(17px, 1.35vw, 19px); font-weight: 700; line-height: 1.5; max-width: 34em">Koop samen met anderen een boot en deel de kosten.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px">
+<a href="#p1t" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Zo werkt het</a>
+<a href="/bootdelen/" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Meld je aan</a>
+</div>
+<a href="/dit-is-deckshare/" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #1E3A2F; font-family: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif; font-size: 17px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer over Deckshare</a>
+<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor het overzicht</p>
+</div>
+</div>
+</section>
+</div>
 
-  <section class="routes-wrap" aria-labelledby="routes-titel">
-    <h2 class="label" id="routes-titel">Drie manieren om mee te doen</h2>
-    <div class="routes">
+<div class="ds-fx" style="height: var(--track-h)">
+<section id="p1t" aria-labelledby="p1t-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 2; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(56px, 6.5vw, 96px) clamp(20px, 4.5vw, 64px); background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: space-between; gap: 16px 64px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">01 · Dit is Deckshare</p>
+<h2 id="p1t-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(44px, 7vw, 104px); line-height: 1; letter-spacing: 0.01em; text-wrap: balance">Koop samen een boot.</h2>
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: clamp(21px, 2vw, 28px); line-height: 1.25; max-width: 24em; text-wrap: balance">Deckshare brengt mensen bij elkaar die samen een boot willen kopen.</p>
+<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Scrol verder</p>
+</div>
+<p aria-hidden="true" style="margin: 0; flex: 0 0 auto; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(96px, 18vw, 280px); line-height: 0.85; letter-spacing: 0.02em; color: #B7D3C2">01</p>
+</div>
+</section>
+</div>
 
-      <article class="route">
-        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="12" r="6"></circle><path d="M15.5 15.5 28 28"></path><path d="M23 23l3-3M26 26l3-3"></path></svg>
-        <p class="kicker">Verhuur</p>
-        <h3>Jij geeft de sleutel. Ik regel de rest.</h3>
-        <p>Vaar je maar een paar keer per jaar? Ik verhuur je boot op de dagen die jij opgeeft, en regel alles eromheen: huurders, overdracht, schoonmaak, verzekering en schade.</p>
-        <p class="muted">Jij bepaalt wanneer de boot beschikbaar is. Er is nog geen boot in de verhuur.</p>
-        <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland.</span></p>
-        <a class="btn" href="/verhuur/">Boot verhuren</a>
-      </article>
+<div class="ds-fx" style="height: var(--track-h)">
+<section id="p2" aria-labelledby="p2-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 3; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); background: #FFFFFF; border-top: 1px solid #DDD6C6">
+<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Een deel van de boot</p>
+<h2 id="p2-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.08; text-wrap: balance">Je koopt een deel van de boot.</h2>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 32em">Bijvoorbeeld een derde, de helft of twee derde. Zo drukken jullie de kosten.</p>
+<a href="/dit-is-deckshare/#basis" class="ds-btn" style="align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 52px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
+<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor het overzicht</p>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 40px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; justify-content: center; gap: 20px">
+<p style="margin: 0; font-size: 15px; line-height: 1.3; color: #5B645D">Jouw deel van de boot</p>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>Een derde van de boot</span><b>1/3</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>De helft van de boot</span><b>1/2</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>Twee derde van de boot</span><b>2/3</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+</div>
+</div>
+</section>
+</div>
 
-      <article class="route">
-        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="9" r="3.5"></circle><path d="M9.5 24c0-4.5 3-7 6.5-7s6.5 2.5 6.5 7"></path><circle cx="7" cy="12" r="2.8"></circle><path d="M2.5 24c0-3.6 2-5.8 4.5-5.8 1.2 0 2.3.4 3.1 1.2"></path><circle cx="25" cy="12" r="2.8"></circle><path d="M29.5 24c0-3.6-2-5.8-4.5-5.8-1.2 0-2.3.4-3.1 1.2"></path></svg>
-        <p class="kicker">Boot delen</p>
-        <h3>Boot delen in de regio</h3>
-        <p>Vaar je maar een paar keer per jaar? Liggeld, stalling, verzekering en onderhoud lopen toch door. Deel je één boot met twee of drie anderen, dan deel je ook die vaste lasten.</p>
-        <p class="muted">Meedoen kan met een eigen boot, of als mede-eigenaar zonder boot. Er is nog geen gedeelde boot.</p>
-        <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren en mensen die graag varen, in heel Nederland.</span></p>
-        <a class="btn" href="/bootdelen/">Boot delen</a>
-      </article>
+<div class="ds-fx" style="height: var(--track-h)">
+<section id="p3" aria-labelledby="p3-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 4; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(56px, 6.5vw, 96px) clamp(20px, 4.5vw, 64px); background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: space-between; gap: 16px 64px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">02 · Naar keuze</p>
+<h2 id="p3-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(44px, 7vw, 104px); line-height: 1; letter-spacing: 0.01em; text-wrap: balance">Na de aankoop.</h2>
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: clamp(21px, 2vw, 28px); line-height: 1.25; max-width: 24em; text-wrap: balance">Jij kiest waar Deckshare je bij helpt.</p>
+<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Scrol verder</p>
+</div>
+<p aria-hidden="true" style="margin: 0; flex: 0 0 auto; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(96px, 18vw, 280px); line-height: 0.85; letter-spacing: 0.02em; color: #B7D3C2">02</p>
+</div>
+</section>
+</div>
 
-      <article class="route">
-        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 28V5h19"></path><path d="M22 5v8"></path><path d="M14 13h16l-3 5H17z"></path><path d="M13 24c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"></path><path d="M3 28h9"></path></svg>
-        <p class="kicker">Ontzorgen</p>
-        <h3>Je boot de winter in, met één aanspreekpunt.</h3>
-        <p>Dit najaar regel ik dat je boot uit het water gaat, vervoerd wordt, onderhoud krijgt en gestald wordt. Bedrijven uit de regio doen het werk; jij hebt alleen met mij contact.</p>
-        <p class="muted">Voor het regelen betaal je in deze startperiode niets.</p>
-        <p class="where"><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.6-9-15a9 9 0 0 1 18 0c0 6.4-9 15-9 15z"></path><circle cx="16" cy="14" r="3.2"></circle></svg><span>Voor booteigenaren in heel Nederland, ongeacht de lengte van de boot.</span></p>
-        <a class="btn" href="/winterproces/">Winterproces regelen</a>
-      </article>
+<div class="ds-fx" style="height: var(--track-h)">
+<section id="p4" aria-labelledby="p4-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 5; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); background: #FFFFFF; border-top: 1px solid #DDD6C6">
+<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Voorzieningen en vaste dagen</p>
+<h2 id="p4-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.08; text-wrap: balance">Waarbij Deckshare je kan ondersteunen.</h2>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 32em">Het is een keuze: je kunt het ook zelf regelen.</p>
+<a href="/ondersteuning/" class="ds-btn" style="align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 52px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
+<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor het overzicht</p>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 36px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD6C6">
+<h3 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 20px; line-height: 1.25">Voorzieningen</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.45">Deckshare zoekt de juiste partijen voor de ligplaats, de verzekering en het onderhoud, en regelt de afhandeling.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column"><li style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 9px 0; border-bottom: 1px solid #DDD6C6"><span style="font-size: 16px; font-weight: 700">Ligplaats</span><span style="display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Partij zoeken</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Afhandeling</span></span></li><li style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 9px 0; border-bottom: 1px solid #DDD6C6"><span style="font-size: 16px; font-weight: 700">Verzekering</span><span style="display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Partij zoeken</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Afhandeling</span></span></li><li style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 9px 0"><span style="font-size: 16px; font-weight: 700">Onderhoud</span><span style="display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Partij zoeken</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Afhandeling</span></span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 20px; line-height: 1.25">Vaste dagen</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.45">Deckshare maakt het vaarschema met ieders vaste dagen en houdt de reserveringen voor jullie bij.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.3; color: #5B645D">Voorbeeld met een halve boot</p>
+<svg viewBox="0 0 137 25" aria-hidden="true" style="display: block; width: 100%; max-width: 274px; height: auto"><path d="M0 0h11v11h-11zM14 0h11v11h-11zM28 0h11v11h-11zM42 0h11v11h-11zM56 0h11v11h-11zM70 0h11v11h-11zM84 0h11v11h-11zM98 0h11v11h-11zM112 0h11v11h-11zM126 0h11v11h-11z" style="fill: #1E3A2F; stroke: none"></path><path d="M0.75 14.75h9.5v9.5h-9.5zM14.75 14.75h9.5v9.5h-9.5zM28.75 14.75h9.5v9.5h-9.5zM42.75 14.75h9.5v9.5h-9.5zM56.75 14.75h9.5v9.5h-9.5zM70.75 14.75h9.5v9.5h-9.5zM84.75 14.75h9.5v9.5h-9.5zM98.75 14.75h9.5v9.5h-9.5zM112.75 14.75h9.5v9.5h-9.5zM126.75 14.75h9.5v9.5h-9.5z" style="fill: #FFFFFF; stroke: #1E3A2F; stroke-width: 1.5"></path></svg>
+<div style="display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Jouw vaste dagen</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; box-sizing: border-box; border-radius: 3px; border: 1.5px solid #1E3A2F; background: #FFFFFF"></span>Die van je mede-eigenaar</span></div>
+</div>
+</div>
+</div>
+</section>
+</div>
 
-    </div>
-  </section>
-
-  <section class="about" aria-labelledby="over-titel">
-    <div class="about-inner">
-      <div class="about-text">
-        <h2 class="label" id="over-titel">Wie ik ben</h2>
-        <p>Ik ben Pepijn, booteigenaar. De afgelopen weken heb ik tientallen booteigenaren gesproken en ondervraagd. Nu begin ik voor mezelf, en ik begin klein: ik verhuur boten voor eigenaren die zelf weinig varen, ik zoek de eerste deelnemers voor het delen van een boot, en ik help eigenaren met het winterproces.</p>
-        <a class="more" href="/over-mij/">Mijn boten tot nu toe</a>
-      </div>
-      <div class="about-call">
-        <p class="label">Liever zelf bellen?</p>
-        <p class="tel"><a href="tel:+31612809664">06 12 80 96 64</a></p>
-        <p class="note">Voor alle drie, en voor vragen.</p>
-      </div>
-    </div>
-  </section>
+<div class="ds-fx-last" style="height: var(--track-h-last)">
+<section id="p5" aria-labelledby="p5-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 6; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Meedoen</p>
+<h2 id="p5-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.08; text-wrap: balance">Doe mee met Deckshare.</h2>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 32em">Meld je aan als je samen met anderen een boot wilt kopen. Ik bel je binnen twee werkdagen terug.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<a href="/bootdelen/" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Meld je aan</a>
+<a href="/dit-is-deckshare/#samenbrengen" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 56px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex); text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
+</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 36px); background: #FFFFFF; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5B645D">Vragen of twijfels?</p>
+<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55">Bel of app me direct.</p>
+<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.1; letter-spacing: 0.04em; font-variant-numeric: tabular-nums"><a href="tel:+31612809664" style="text-decoration: none">06 12 80 96 64</a></p>
+</div>
+</div>
+</section>
+</div>
 
 </main>
 
-<footer class="foot">
-  <div class="foot-inner">
-    <span>Deckshare</span>
-  </div>
+<footer style="position: relative; z-index: 10; background: #F5F2EA; border-top: 1px solid #DDD6C6">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding: 20px clamp(20px, 4.5vw, 64px); font-size: 14px; color: #5B645D">Deckshare</div>
 </footer>
 
 <script>
@@ -268,38 +364,16 @@ a:hover { color: var(--ink-deep); }
 })();
 
 (function () {
-  var hero = document.querySelector('.hero');
-  if (!hero) return;
-  var bg = hero.querySelector('.hero-bg');
-  var panel = hero.querySelector('.hero-panel');
-  var rustig = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var bezig = false;
-
-  function teken() {
-    bezig = false;
-    if (rustig.matches) {
-      bg.style.transform = '';
-      panel.style.transform = '';
-      panel.style.opacity = '';
-      return;
-    }
-    var hoogte = hero.offsetHeight;
-    var y = Math.min(Math.max(window.scrollY || window.pageYOffset || 0, 0), hoogte);
-    // De foto zakt mee: hij beweegt langzamer omhoog dan de pagina.
-    bg.style.transform = 'translate3d(0,' + (y * 0.35).toFixed(1) + 'px,0)';
-    // De tekst gaat sneller omhoog dan de pagina en vervaagt.
-    panel.style.transform = 'translate3d(0,' + (-y * 0.45).toFixed(1) + 'px,0)';
-    panel.style.opacity = Math.max(0, 1 - y / (hoogte * 0.7)).toFixed(3);
-  }
-
-  function opScroll() {
-    if (!bezig) { bezig = true; window.requestAnimationFrame(teken); }
-  }
-
-  window.addEventListener('scroll', opScroll, { passive: true });
-  window.addEventListener('resize', opScroll);
-  if (rustig.addEventListener) rustig.addEventListener('change', opScroll);
-  teken();
+  document.querySelectorAll('[data-open]').forEach(function (knop) {
+    knop.addEventListener('click', function () {
+      var d = document.getElementById('info-' + knop.getAttribute('data-open'));
+      if (d && d.showModal) d.showModal();
+    });
+  });
+  // Klik naast het venster sluit het.
+  document.querySelectorAll('dialog.ds-dlg').forEach(function (d) {
+    d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+  });
 })();
 </script>
 </body>
