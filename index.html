@@ -183,6 +183,194 @@ dialog.ds-dlg[open] { animation: ds-drawer .28s ease-out; }
 dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
 .ds-dlg-in { box-sizing: border-box; min-height: 100%; padding: 24px clamp(20px, 3vw, 40px) 48px; display: flex; flex-direction: column; gap: 20px; }
 @media (prefers-reduced-motion: reduce) { dialog.ds-dlg[open] { animation: none; } }
+/* Uitleg: zeven dia's die elk het hele scherm vullen; onderin de stappenbalk. Een dia schuift omhoog weg, de volgende komt van onderen binnen.
+   Maten in --u: breed scherm tekst links en beeld rechts, staand scherm beeld boven tekst. Gebruikt de kleurtokens van de site. */
+@property --uf-rest { syntax: '<color>'; inherits: true; initial-value: #FFFFFF; }
+.uf { display: flex; flex-direction: column; min-height: 0; color: var(--ink); }
+.uf-vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.uf-stage { position: relative; flex: 1 1 auto; min-height: 0; container: ufstage / size; background: var(--ground); overflow: hidden; }
+.uf-stage:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+
+.uf-scene { --u: min(1cqw, 1.7cqh, 12px); position: absolute; inset: 0; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); align-items: center; align-content: center; gap: calc(5 * var(--u)); padding-block: calc(5 * var(--u)); padding-inline: max(calc(6 * var(--u)), calc((100cqw - 100 * var(--u)) / 2)); opacity: 0; visibility: hidden; will-change: transform; }
+.uf-scene:first-of-type { opacity: 1; visibility: visible; }
+.uf-solo { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+.uf-txt { display: flex; flex-direction: column; gap: calc(1.6 * var(--u)); min-width: 0; }
+.uf-kick { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: max(10px, calc(1.2 * var(--u))); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.uf-scene h3 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: calc(3.5 * var(--u)); line-height: 1.12; text-wrap: balance; }
+.uf-lead { margin: 0; font-size: max(13px, calc(1.85 * var(--u))); line-height: 1.45; max-width: 30em; text-wrap: pretty; }
+.uf-vis { min-width: 0; display: flex; flex-direction: column; gap: calc(1.6 * var(--u)); }
+.uf-vis > svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* Keuze in elke dia */
+.uf-keuze { display: flex; flex-wrap: wrap; align-items: center; gap: calc(1 * var(--u)) calc(2.2 * var(--u)); margin-top: calc(.6 * var(--u)); }
+.uf-solo .uf-keuze { justify-content: center; }
+.uf-go, .uf-cta { display: inline-flex; align-items: center; justify-content: center; gap: max(8px, calc(.9 * var(--u))); box-sizing: border-box; height: max(42px, calc(4.4 * var(--u))); padding: 0 max(16px, calc(2 * var(--u))); border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: max(11px, calc(1.15 * var(--u))); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; transition: background-color .15s; }
+.uf-go:hover, .uf-cta:hover { background: var(--tint); color: var(--ink); }
+.uf-info { display: inline-flex; align-items: center; gap: max(6px, calc(.6 * var(--u))); min-height: 40px; color: var(--ink); font-family: var(--body); font-weight: 700; font-size: max(14px, calc(1.5 * var(--u))); text-decoration: underline; text-underline-offset: 4px; }
+.uf-info:hover { color: var(--ink); }
+.uf-go svg, .uf-info svg { flex-shrink: 0; width: max(15px, calc(1.4 * var(--u))); height: max(15px, calc(1.4 * var(--u))); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.uf-again { margin-top: calc(.4 * var(--u)); padding: 4px 0; border: 0; background: none; color: var(--muted); cursor: pointer; font-family: var(--body); font-size: max(13px, calc(1.3 * var(--u))); text-decoration: underline; text-underline-offset: 3px; }
+
+.uf-ln { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.uf-ln-m { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.uf-pers { fill: var(--surface); }
+.uf-hull { fill: var(--surface); }
+
+/* Bewegingen: de tijd zet het script per frame; een dia speelt af zodra hij op zijn plek staat en blijft dan staan */
+.uf-a-rise { animation: uf-rise .7s cubic-bezier(.2, .7, .2, 1) var(--d, 0s) both; }
+@keyframes uf-rise { from { opacity: 0; transform: translateY(calc(1.4 * var(--u))); } to { opacity: 1; transform: none; } }
+.uf-a-fade { animation: uf-fade .5s ease var(--d, 0s) both; }
+@keyframes uf-fade { from { opacity: 0; } to { opacity: 1; } }
+.uf-a-draw { stroke-dasharray: 1 1; animation: uf-draw var(--t, 1.4s) ease-in-out var(--d, 0s) both; }
+@keyframes uf-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.uf-a-pop { transform-box: fill-box; transform-origin: 50% 100%; animation: uf-pop .6s cubic-bezier(.3, 1.3, .5, 1) var(--d, 0s) both; }
+@keyframes uf-pop { from { opacity: 0; transform: translate(var(--dx, 0px), 12px) scale(.75); } to { opacity: 1; transform: none; } }
+
+/* 1 · De vraag: een jaar */
+.uf-year { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(1.5 * var(--u)) calc(1.4 * var(--u)); }
+.uf-month { display: grid; gap: calc(.45 * var(--u)); align-content: start; animation: uf-restm .6s ease var(--d, 0s) both; }
+@keyframes uf-restm { from { --uf-rest: var(--surface); } to { --uf-rest: var(--tint); } }
+.uf-month b { font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: max(9px, calc(.95 * var(--u))); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.uf-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: calc(.28 * var(--u)); }
+.uf-days i { aspect-ratio: 1; box-sizing: border-box; border: 1px solid var(--ink); border-radius: 2px; background: var(--uf-rest); }
+.uf-days i.x { visibility: hidden; }
+.uf-days i.v { animation: uf-sail .5s cubic-bezier(.3, .7, .3, 1) var(--d, 0s) both; }
+@keyframes uf-sail { 0% { background: var(--surface); transform: scale(1); } 50% { background: var(--ink); transform: scale(1.5); } 100% { background: var(--ink); transform: scale(1); } }
+
+.uf-legend { display: flex; flex-wrap: wrap; align-items: center; gap: calc(.6 * var(--u)) calc(2 * var(--u)); font-size: max(11px, calc(1.25 * var(--u))); line-height: 1.3; }
+.uf-legend span { display: inline-flex; align-items: center; gap: calc(.7 * var(--u)); }
+.uf-sw { flex-shrink: 0; width: max(10px, calc(1.2 * var(--u))); height: max(10px, calc(1.2 * var(--u))); box-sizing: border-box; border: 1px solid var(--ink); border-radius: 2px; background: var(--surface); }
+.uf-sw-on { background: var(--ink); }
+.uf-sw-rest { animation: uf-swrest .6s ease var(--d, 0s) both; }
+@keyframes uf-swrest { from { background: var(--surface); } to { background: var(--tint); } }
+.uf-legend .uf-vb { margin-left: auto; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: max(9px, calc(.95 * var(--u))); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+/* 3 · Een deel van de boot */
+.uf-share { fill: var(--ink); transform-box: fill-box; transform-origin: 0 50%; animation: uf-share 6.5s ease-in-out 0s both; }
+@keyframes uf-share {
+  0%, 15% { transform: scaleX(0); }
+  23%, 40% { transform: scaleX(.3333); }
+  48%, 64.6% { transform: scaleX(.5); }
+  72.3%, 100% { transform: scaleX(.6667); }
+}
+.uf-parts { display: grid; gap: calc(1.3 * var(--u)); }
+.uf-part { display: grid; gap: calc(.6 * var(--u)); }
+.uf-part p { margin: 0; display: flex; justify-content: space-between; gap: calc(1 * var(--u)); font-size: max(12px, calc(1.55 * var(--u))); line-height: 1.3; }
+.uf-part b { font-family: var(--display); font-stretch: 125%; font-weight: 600; }
+.uf-bar { display: flex; gap: calc(.4 * var(--u)); height: calc(1.8 * var(--u)); }
+.uf-bar i { flex: 1 1 0; box-sizing: border-box; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--surface); }
+.uf-bar i.f { animation: uf-seg .4s ease var(--d, 0s) both; }
+@keyframes uf-seg { from { background: var(--surface); } to { background: var(--ink); } }
+
+/* 4 · Naar keuze */
+.uf-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(1.4 * var(--u)); }
+.uf-opt { display: flex; flex-direction: column; gap: calc(.9 * var(--u)); padding: calc(1.6 * var(--u)); border: 1.5px solid var(--ink); border-radius: 4px; background: var(--surface); }
+.uf-opt svg { width: calc(3 * var(--u)); height: calc(3 * var(--u)); fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.uf-opt span { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: calc(1.5 * var(--u)); line-height: 1.2; }
+
+/* 5 · Reserveringsapp */
+.uf-app { display: grid; gap: calc(.8 * var(--u)); padding: calc(1.6 * var(--u)); border: 1.5px solid var(--ink); border-radius: calc(1.2 * var(--u)); background: var(--surface); }
+.uf-appbar { display: flex; justify-content: space-between; align-items: baseline; gap: calc(1 * var(--u)); padding-bottom: calc(.8 * var(--u)); border-bottom: 1px solid var(--line); font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: calc(1.4 * var(--u)); }
+.uf-appbar small { font-weight: 500; font-size: max(9px, calc(.95 * var(--u))); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.uf-dow, .uf-cells { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: calc(.6 * var(--u)); }
+.uf-dow span { font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: max(9px, calc(1 * var(--u))); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.uf-cells i { aspect-ratio: 1.6; box-sizing: border-box; border: 1.5px solid var(--line); border-radius: 3px; background: var(--surface); }
+.uf-cells i.y { animation: uf-own .45s ease var(--d, 0s) both; }
+.uf-cells i.m { animation: uf-other .45s ease var(--d, 0s) both; }
+@keyframes uf-own { 0% { border-color: var(--line); background: var(--surface); transform: none; } 50% { transform: scale(1.08); } 100% { border-color: var(--ink); background: var(--ink); transform: none; } }
+@keyframes uf-other { 0% { border-color: var(--line); transform: none; } 50% { transform: scale(1.08); } 100% { border-color: var(--ink); transform: none; } }
+
+/* 6 · Ondersteunende services */
+.uf-svc { list-style: none; margin: 0; padding: 0; display: grid; }
+.uf-svc li { display: grid; grid-template-columns: calc(2.6 * var(--u)) minmax(0, 1fr) auto calc(2.4 * var(--u)); grid-template-areas: "ic nm st ck"; align-items: center; gap: calc(1.4 * var(--u)); padding: calc(1.5 * var(--u)) 0; border-top: 1.5px solid var(--ink); }
+.uf-svc li:last-child { border-bottom: 1.5px solid var(--ink); }
+.uf-svc .uf-ic { grid-area: ic; display: block; width: 100%; height: auto; fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.uf-svc .uf-nm { grid-area: nm; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: calc(1.6 * var(--u)); }
+.uf-svc .uf-st { grid-area: st; display: flex; align-items: center; gap: calc(.8 * var(--u)); font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: max(9px, calc(1 * var(--u))); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.uf-svc .uf-ar { width: calc(1.2 * var(--u)); height: calc(1.2 * var(--u)); fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.uf-svc .uf-ck { grid-area: ck; display: block; width: 100%; height: auto; fill: none; stroke: var(--ink); stroke-width: 1.6; }
+.uf-svc .uf-ck path { stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 7 · Meedoen */
+.uf-end { align-items: center; gap: calc(1.7 * var(--u)); }
+.uf-end .uf-big { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: calc(5.2 * var(--u)); line-height: 1; letter-spacing: .14em; text-transform: uppercase; }
+.uf-end .uf-wave { display: block; width: calc(26 * var(--u)); height: auto; overflow: visible; }
+.uf-end .uf-small { margin: 0; font-size: max(13px, calc(1.35 * var(--u))); color: var(--muted); }
+
+/* Stappenbalk onderin */
+.uf-nav { flex: none; box-sizing: border-box; width: 100%; max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 14px; padding: 10px clamp(16px, 4.5vw, 64px) 12px; }
+.uf-sq { flex-shrink: 0; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; transition: background-color .15s, opacity .15s; }
+.uf-sq:hover { background: var(--tint); }
+.uf-sq:disabled { opacity: .35; cursor: default; background: transparent; }
+.uf-sq svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.uf-chap { flex: 1; min-width: 0; list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.uf-chap li { flex: 1 1 0; min-width: 0; }
+.uf-chap button { width: 100%; display: grid; align-content: start; gap: 7px; padding: 8px 0 4px; border: 0; background: transparent; color: var(--muted); cursor: pointer; text-align: left; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 11px; line-height: 1.25; letter-spacing: .1em; text-transform: uppercase; }
+.uf-chap button[aria-current="step"] { color: var(--ink); }
+.uf-trk { display: block; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.uf-fil { display: block; width: 100%; height: 100%; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
+.uf-lbl { hyphens: manual; overflow-wrap: break-word; }
+.uf-count { flex-shrink: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 13px; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) {
+  .uf-lbl { display: none; }
+  .uf-chap button { padding: 20px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uf * { animation-duration: 1ms !important; animation-delay: 0s !important; }
+}
+
+/* Staand scherm (telefoon, tablet rechtop): beeld boven tekst */
+@container ufstage (aspect-ratio < 1) {
+  .uf-scene { --u: min(1cqw, .69cqh); grid-template-columns: minmax(0, 1fr); align-items: start; gap: calc(5 * var(--u)); padding: calc(6 * var(--u)) calc(7 * var(--u)); }
+  .uf-scene .uf-vis { order: -1; }
+  .uf-txt { gap: calc(2.4 * var(--u)); }
+  .uf-kick { font-size: max(10px, calc(2.8 * var(--u))); }
+  .uf-scene h3 { font-size: calc(6 * var(--u)); }
+  .uf-lead { font-size: max(14px, calc(4.1 * var(--u))); }
+  .uf-vis { gap: calc(3 * var(--u)); }
+  .uf-keuze { gap: calc(1.5 * var(--u)) calc(5 * var(--u)); margin-top: calc(1 * var(--u)); }
+  .uf-go, .uf-cta { height: max(44px, calc(11 * var(--u))); padding: 0 max(16px, calc(5 * var(--u))); font-size: max(12px, calc(3.1 * var(--u))); }
+  .uf-info { font-size: max(15px, calc(3.8 * var(--u))); }
+  .uf-go svg, .uf-info svg { width: max(15px, calc(3.6 * var(--u))); height: max(15px, calc(3.6 * var(--u))); }
+  .uf-again { font-size: max(14px, calc(3.4 * var(--u))); }
+  .uf-year { gap: calc(2.4 * var(--u)); }
+  .uf-month { gap: calc(.9 * var(--u)); }
+  .uf-month b { font-size: max(9px, calc(2.3 * var(--u))); }
+  .uf-days { gap: calc(.5 * var(--u)); }
+  .uf-legend { gap: calc(1.2 * var(--u)) calc(3.6 * var(--u)); font-size: max(11px, calc(3.1 * var(--u))); }
+  .uf-legend span { gap: calc(1.6 * var(--u)); }
+  .uf-sw { width: calc(3 * var(--u)); height: calc(3 * var(--u)); }
+  .uf-legend .uf-vb { font-size: max(9px, calc(2.3 * var(--u))); margin-left: 0; }
+  .uf-parts { gap: calc(2.2 * var(--u)); }
+  .uf-part { gap: calc(1.1 * var(--u)); }
+  .uf-part p { font-size: max(12px, calc(3.4 * var(--u))); }
+  .uf-bar { height: calc(3.6 * var(--u)); gap: calc(.9 * var(--u)); }
+  .uf-opts { gap: calc(3 * var(--u)); }
+  .uf-opt { gap: calc(1.8 * var(--u)); padding: calc(3.2 * var(--u)); }
+  .uf-opt svg { width: calc(6 * var(--u)); height: calc(6 * var(--u)); }
+  .uf-opt span { font-size: calc(3.6 * var(--u)); }
+  .uf-app { gap: calc(1.6 * var(--u)); padding: calc(3.2 * var(--u)); border-radius: calc(3 * var(--u)); }
+  .uf-appbar { font-size: calc(3.4 * var(--u)); padding-bottom: calc(1.6 * var(--u)); }
+  .uf-appbar small { font-size: max(9px, calc(2.3 * var(--u))); }
+  .uf-dow, .uf-cells { gap: calc(1.3 * var(--u)); }
+  .uf-dow span { font-size: max(9px, calc(2.4 * var(--u))); }
+  .uf-svc li { grid-template-columns: calc(6 * var(--u)) minmax(0, 1fr) calc(5.6 * var(--u)); grid-template-areas: "ic nm ck" "ic st ck"; gap: calc(.8 * var(--u)) calc(3 * var(--u)); padding: calc(2.4 * var(--u)) 0; }
+  .uf-svc .uf-nm { font-size: calc(4 * var(--u)); }
+  .uf-svc .uf-st { font-size: max(9px, calc(2.5 * var(--u))); gap: calc(1.6 * var(--u)); }
+  .uf-svc .uf-ar { width: calc(2.6 * var(--u)); height: calc(2.6 * var(--u)); }
+  .uf-end { gap: calc(3.4 * var(--u)); }
+  .uf-end .uf-big { font-size: calc(9.5 * var(--u)); }
+  .uf-end .uf-wave { width: calc(50 * var(--u)); }
+  .uf-end .uf-small { font-size: max(13px, calc(3.4 * var(--u))); }
+}
+/* Uitleg onder de hero: dia's over het hele scherm onder de menubalk, stappenbalk onderin */
+.uf-sec { position: relative; z-index: 2; box-sizing: border-box; display: flex; flex-direction: column; height: calc(100vh - 81px); min-height: 460px; background: var(--ground); border-top: 1px solid var(--line); scroll-margin-top: 81px; }
+@supports (height: 100svh) { .uf-sec { height: calc(100svh - 81px); } }
+.uf-sec .uf { flex: 1 1 auto; }
+.uf-call { margin: 0; padding: 18px 20px 22px; text-align: center; font-size: 16px; color: var(--muted); background: var(--ground); border-top: 1px solid var(--line); position: relative; z-index: 2; }
+.uf-call a { color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -222,112 +410,203 @@ dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
 <p style="margin: 0; font-size: clamp(17px, 1.35vw, 19px); line-height: 1.5; max-width: 34em">Vaar je maar een paar keer per jaar? Of is een eigen boot te duur voor de keren dat je gaat?</p>
 <p style="margin: 0; font-size: clamp(17px, 1.35vw, 19px); font-weight: 700; line-height: 1.5; max-width: 34em">Koop samen met anderen een boot en deel de kosten.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px">
-<a href="#p1t" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Zo werkt het</a>
+<a href="#uitleg" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Zo werkt het</a>
 <a href="/bootdelen/" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Meld je aan</a>
 </div>
 <a href="/dit-is-deckshare/" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #1E3A2F; font-family: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif; font-size: 17px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer over Deckshare</a>
-<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor het overzicht</p>
+<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor de uitleg</p>
 </div>
 </div>
 </section>
 </div>
 
-<div class="ds-fx" style="height: var(--track-h)">
-<section id="p1t" aria-labelledby="p1t-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 2; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(56px, 6.5vw, 96px) clamp(20px, 4.5vw, 64px); background: #F5F2EA; border-top: 1px solid #DDD6C6">
-<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: space-between; gap: 16px 64px">
-<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">01 · Dit is Deckshare</p>
-<h2 id="p1t-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(44px, 7vw, 104px); line-height: 1; letter-spacing: 0.01em; text-wrap: balance">Koop samen een boot.</h2>
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: clamp(21px, 2vw, 28px); line-height: 1.25; max-width: 24em; text-wrap: balance">Deckshare brengt mensen bij elkaar die samen een boot willen kopen.</p>
-<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Scrol verder</p>
+<section id="uitleg" class="uf-sec" aria-labelledby="uitleg-titel">
+<h2 id="uitleg-titel" class="uf-vh">Zo werkt Deckshare</h2>
+<div class="uf" id="uf" data-base="">
+<div class="uf-stage" tabindex="0" aria-live="polite" aria-label="Uitleg in zeven stappen. Gebruik de knoppen of de pijltjestoetsen om door te gaan.">
+
+<section class="uf-scene" data-dur="4.5" data-name="De vraag">
+<div class="uf-txt">
+<h3>Vaar je maar een paar keer per jaar?</h3>
+<p class="uf-lead uf-a-rise" style="--d:2.4s">Of geeft de boot te hoge kosten?</p>
+<div class="uf-keuze uf-a-rise" style="--d:3s">
+<button class="uf-go" type="button">Verder met de uitleg<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button>
+<a class="uf-info" data-href="/dit-is-deckshare/#waarom" href="/dit-is-deckshare/#waarom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
 </div>
-<p aria-hidden="true" style="margin: 0; flex: 0 0 auto; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(96px, 18vw, 280px); line-height: 0.85; letter-spacing: 0.02em; color: #B7D3C2">01</p>
+</div>
+<div class="uf-vis">
+<div class="uf-year" id="uf-year"></div>
+<div class="uf-legend">
+<span><i class="uf-sw uf-sw-on"></i>Dagen dat je vaart</span>
+<span><i class="uf-sw uf-sw-rest" style="--d:2.6s"></i>Dagen dat de boot ligt</span>
+<span class="uf-vb">Voorbeeld</span>
+</div>
+</div>
+</section>
+
+<section class="uf-scene" data-dur="3.6" data-name="Samen kopen">
+<div class="uf-txt">
+<p class="uf-kick uf-a-rise" style="--d:.15s">01 · Dit is Deckshare</p>
+<h3 class="uf-a-rise" style="--d:.3s">Koop samen een boot.</h3>
+<p class="uf-lead uf-a-rise" style="--d:1.6s">Deckshare brengt mensen bij elkaar die samen een boot willen kopen.</p>
+<div class="uf-keuze uf-a-rise" style="--d:2s">
+<button class="uf-go" type="button">Verder met de uitleg<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button>
+<a class="uf-info" data-href="/dit-is-deckshare/#samenbrengen" href="/dit-is-deckshare/#samenbrengen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
+</div>
+</div>
+<div class="uf-vis">
+<svg viewBox="0 0 400 230" aria-hidden="true">
+<g transform="translate(110 30)"><g class="uf-a-pop" style="--d:1.7s;--dx:-50px"><circle class="uf-ln uf-pers" cx="0" cy="10" r="10"/><path class="uf-ln uf-pers" d="M-18 44c0-14 8-20 18-20s18 6 18 20"/></g></g>
+<g transform="translate(200 22)"><g class="uf-a-pop" style="--d:1.85s"><circle class="uf-ln uf-pers" cx="0" cy="10" r="10"/><path class="uf-ln uf-pers" d="M-18 44c0-14 8-20 18-20s18 6 18 20"/></g></g>
+<g transform="translate(290 30)"><g class="uf-a-pop" style="--d:2s;--dx:50px"><circle class="uf-ln uf-pers" cx="0" cy="10" r="10"/><path class="uf-ln uf-pers" d="M-18 44c0-14 8-20 18-20s18 6 18 20"/></g></g>
+<path class="uf-ln-m uf-a-draw" pathLength="1" style="--d:2.6s;--t:.6s" d="M114 84L146 156"/>
+<path class="uf-ln-m uf-a-draw" pathLength="1" style="--d:2.7s;--t:.6s" d="M200 76L214 154"/>
+<path class="uf-ln-m uf-a-draw" pathLength="1" style="--d:2.8s;--t:.6s" d="M286 84L258 156"/>
+<g transform="translate(0 138)">
+<path class="uf-hull uf-a-fade" style="--d:1.2s" d="M30 22L40 60Q190 70 300 62Q352 56 372 10Q200 26 30 22Z"/>
+<path class="uf-ln uf-a-draw" pathLength="1" style="--d:.3s" d="M30 22L40 60Q190 70 300 62Q352 56 372 10Q200 26 30 22Z"/>
+<path class="uf-ln uf-a-draw" pathLength="1" style="--d:.8s;--t:1s" d="M34 32Q200 38 362 22"/>
+<path class="uf-ln uf-a-draw" pathLength="1" style="--d:1s;--t:.8s" d="M168 22V4H192L202 22"/>
+<path class="uf-ln uf-a-draw" pathLength="1" style="--d:1.1s;--t:.8s" d="M58 22V12Q58 8 62 8H104Q108 8 108 12V22"/>
+<path class="uf-ln-m uf-a-draw" pathLength="1" style="--d:.6s;--t:1.8s" d="M0 72q10 -5 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0"/>
+</g>
+</svg>
+</div>
+</section>
+
+<section class="uf-scene" data-dur="6.5" data-name="Een deel">
+<div class="uf-txt">
+<p class="uf-kick uf-a-rise" style="--d:.15s">Een deel van de boot</p>
+<h3 class="uf-a-rise" style="--d:.3s">Je koopt een deel van de boot.</h3>
+<p class="uf-lead uf-a-rise" style="--d:1.4s">Bijvoorbeeld een derde, de helft of twee derde. Zo drukken jullie de kosten.</p>
+<div class="uf-keuze uf-a-rise" style="--d:1.8s">
+<button class="uf-go" type="button">Verder met de uitleg<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button>
+<a class="uf-info" data-href="/dit-is-deckshare/#basis" href="/dit-is-deckshare/#basis"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
+</div>
+</div>
+<div class="uf-vis">
+<svg viewBox="0 0 400 86" aria-hidden="true">
+<defs><clipPath id="uf-romp"><path d="M30 22L40 60Q190 70 300 62Q352 56 372 10Q200 26 30 22Z"/></clipPath></defs>
+<g transform="translate(0 4)">
+<path class="uf-hull" d="M30 22L40 60Q190 70 300 62Q352 56 372 10Q200 26 30 22Z"/>
+<g clip-path="url(#uf-romp)"><rect class="uf-share" x="30" y="0" width="342" height="70"/></g>
+<path class="uf-ln" d="M30 22L40 60Q190 70 300 62Q352 56 372 10Q200 26 30 22Z"/>
+<path class="uf-ln" d="M34 32Q200 38 362 22"/>
+<path class="uf-ln" d="M168 22V4H192L202 22"/>
+<path class="uf-ln" d="M58 22V12Q58 8 62 8H104Q108 8 108 12V22"/>
+<path class="uf-ln-m" d="M0 72q10 -5 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0"/>
+</g>
+</svg>
+<div class="uf-parts">
+<div class="uf-part uf-a-rise" style="--d:.9s"><p><span>Een derde van de boot</span><b>1/3</b></p><div class="uf-bar"><i class="f" style="--d:1s"></i><i></i><i></i></div></div>
+<div class="uf-part uf-a-rise" style="--d:2.5s"><p><span>De helft van de boot</span><b>1/2</b></p><div class="uf-bar"><i class="f" style="--d:2.6s"></i><i></i></div></div>
+<div class="uf-part uf-a-rise" style="--d:4.1s"><p><span>Twee derde van de boot</span><b>2/3</b></p><div class="uf-bar"><i class="f" style="--d:4.2s"></i><i class="f" style="--d:4.3s"></i><i></i></div></div>
+</div>
+</div>
+</section>
+
+<section class="uf-scene" data-dur="2.6" data-name="Naar keuze">
+<div class="uf-txt">
+<p class="uf-kick uf-a-rise" style="--d:.15s">02 · Naar keuze</p>
+<h3 class="uf-a-rise" style="--d:.3s">Jij kiest waar Deckshare je bij helpt.</h3>
+<p class="uf-lead uf-a-rise" style="--d:1.2s">Na de aankoop. Het is een keuze: je kunt het ook zelf regelen.</p>
+<div class="uf-keuze uf-a-rise" style="--d:1.6s">
+<button class="uf-go" type="button">Verder met de uitleg<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button>
+<a class="uf-info" data-href="/ondersteuning/" href="/ondersteuning/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
+</div>
+</div>
+<div class="uf-vis">
+<div class="uf-opts">
+<div class="uf-opt uf-a-rise" style="--d:.5s"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Reserverings&shy;app</span></div>
+<div class="uf-opt uf-a-rise" style="--d:.65s"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21M8 11h8M5 14.5c0 3.8 3.1 6.5 7 6.5s7-2.7 7-6.5"/></svg><span>Ligplaats</span></div>
+<div class="uf-opt uf-a-rise" style="--d:.8s"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z"/></svg><span>Verzekering</span></div>
+<div class="uf-opt uf-a-rise" style="--d:.95s"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></svg><span>Onderhoud</span></div>
+</div>
+</div>
+</section>
+
+<section class="uf-scene" data-dur="2.6" data-name="Reserverings&shy;app">
+<div class="uf-txt">
+<p class="uf-kick uf-a-rise" style="--d:.15s">Reserveringsapp</p>
+<h3 class="uf-a-rise" style="--d:.3s">Deckshare maakt het vaarschema.</h3>
+<p class="uf-lead uf-a-rise" style="--d:1.4s">Met ieders vaste dagen. De reserveringen houdt Deckshare voor jullie bij.</p>
+<div class="uf-keuze uf-a-rise" style="--d:1.8s">
+<button class="uf-go" type="button">Verder met de uitleg<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button>
+<a class="uf-info" data-href="/ondersteuning/#dagen" href="/ondersteuning/#dagen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
+</div>
+</div>
+<div class="uf-vis">
+<div class="uf-app">
+<div class="uf-appbar"><span>Vaarschema</span><small>4 weken</small></div>
+<div class="uf-dow" aria-hidden="true"><span>ma</span><span>di</span><span>wo</span><span>do</span><span>vr</span><span>za</span><span>zo</span></div>
+<div class="uf-cells" id="uf-cells"></div>
+</div>
+<div class="uf-legend uf-a-fade" style="--d:2.1s">
+<span><i class="uf-sw uf-sw-on"></i>Jouw vaste dagen</span>
+<span><i class="uf-sw"></i>Die van je mede-eigenaar</span>
+<span class="uf-vb">Voorbeeld met een halve boot</span>
+</div>
+</div>
+</section>
+
+<section class="uf-scene" data-dur="4.6" data-name="Ondersteunende services" data-kort="Services"data-more="/ondersteuning/#voorzieningen">
+<div class="uf-txt">
+<p class="uf-kick uf-a-rise" style="--d:.15s">Ondersteunende services</p>
+<h3 class="uf-a-rise" style="--d:.3s">Deckshare zoekt de juiste partijen.</h3>
+<p class="uf-lead uf-a-rise" style="--d:1.4s">Voor de ligplaats, de verzekering en het onderhoud. En Deckshare regelt de afhandeling.</p>
+<div class="uf-keuze uf-a-rise" style="--d:1.8s">
+<button class="uf-go" type="button">Verder met de uitleg<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button>
+<a class="uf-info" data-href="/ondersteuning/#voorzieningen" href="/ondersteuning/#voorzieningen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
+</div>
+</div>
+<div class="uf-vis">
+<ul class="uf-svc">
+<li class="uf-a-rise" style="--d:.6s">
+<svg class="uf-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21M8 11h8M5 14.5c0 3.8 3.1 6.5 7 6.5s7-2.7 7-6.5"/></svg>
+<span class="uf-nm">Ligplaats</span>
+<span class="uf-st"><span class="uf-a-fade" style="--d:1.6s">Partij zoeken</span><svg class="uf-ar uf-a-fade" style="--d:1.8s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg><span class="uf-a-fade" style="--d:1.9s">Afhandeling</span></span>
+<svg class="uf-ck" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="3"/><path class="uf-a-draw" pathLength="1" style="--d:2.2s;--t:.4s" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
+</li>
+<li class="uf-a-rise" style="--d:.8s">
+<svg class="uf-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z"/></svg>
+<span class="uf-nm">Verzekering</span>
+<span class="uf-st"><span class="uf-a-fade" style="--d:2.4s">Partij zoeken</span><svg class="uf-ar uf-a-fade" style="--d:2.6s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg><span class="uf-a-fade" style="--d:2.7s">Afhandeling</span></span>
+<svg class="uf-ck" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="3"/><path class="uf-a-draw" pathLength="1" style="--d:3s;--t:.4s" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
+</li>
+<li class="uf-a-rise" style="--d:1s">
+<svg class="uf-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></svg>
+<span class="uf-nm">Onderhoud</span>
+<span class="uf-st"><span class="uf-a-fade" style="--d:3.2s">Partij zoeken</span><svg class="uf-ar uf-a-fade" style="--d:3.4s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg><span class="uf-a-fade" style="--d:3.5s">Afhandeling</span></span>
+<svg class="uf-ck" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="3"/><path class="uf-a-draw" pathLength="1" style="--d:3.8s;--t:.4s" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
+</li>
+</ul>
+</div>
+</section>
+
+<section class="uf-scene uf-solo" data-dur="2.6" data-name="Meedoen">
+<div class="uf-txt uf-end">
+<p class="uf-big uf-a-rise" style="--d:.15s">Deckshare</p>
+<svg class="uf-wave" viewBox="0 0 400 12" aria-hidden="true"><path class="uf-ln-m uf-a-draw" pathLength="1" style="--d:.45s;--t:1.2s" d="M0 8q10 -5 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0"/></svg>
+<h3 class="uf-a-rise" style="--d:.7s">Betaalbaar varen op niveau.</h3>
+<p class="uf-lead uf-a-rise" style="--d:1.1s">Koop samen met anderen een boot en deel de kosten.</p>
+<div class="uf-keuze uf-a-rise" style="--d:1.6s">
+<a class="uf-cta" data-href="/bootdelen/" href="/bootdelen/">Meld je aan</a>
+<a class="uf-info" data-href="/dit-is-deckshare/#samenbrengen" href="/dit-is-deckshare/#samenbrengen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Meer informatie</a>
+</div>
+<p class="uf-small uf-a-fade" style="--d:2.1s">Ik bel je binnen twee werkdagen terug.</p>
+<button class="uf-again uf-a-fade" style="--d:2.1s" type="button">Opnieuw bekijken</button>
 </div>
 </section>
 </div>
 
-<div class="ds-fx" style="height: var(--track-h)">
-<section id="p2" aria-labelledby="p2-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 3; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); background: #FFFFFF; border-top: 1px solid #DDD6C6">
-<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
-<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Een deel van de boot</p>
-<h2 id="p2-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.08; text-wrap: balance">Je koopt een deel van de boot.</h2>
-<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 32em">Bijvoorbeeld een derde, de helft of twee derde. Zo drukken jullie de kosten.</p>
-<a href="/dit-is-deckshare/#basis" class="ds-btn" style="align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 52px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
-<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor het overzicht</p>
-</div>
-<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 40px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; justify-content: center; gap: 20px">
-<p style="margin: 0; font-size: 15px; line-height: 1.3; color: #5B645D">Jouw deel van de boot</p>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>Een derde van de boot</span><b>1/3</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>De helft van de boot</span><b>1/2</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 17px; line-height: 1.3"><span>Twee derde van de boot</span><b>2/3</b></p><div aria-hidden="true" style="display: flex; gap: 4px; height: 24px"><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #1E3A2F"></span><span style="flex: 1 1 0; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid #1E3A2F"></span></div></div>
+<div class="uf-nav">
+<button class="uf-sq" id="uf-prev" type="button" aria-label="Vorige stap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M10 7l-5 5 5 5"/></svg></button>
+<ol class="uf-chap" id="uf-chap" aria-label="Stappen"></ol>
+<span class="uf-count" id="uf-count">1 / 7</span>
 </div>
 </div>
 </section>
-</div>
-
-<div class="ds-fx" style="height: var(--track-h)">
-<section id="p3" aria-labelledby="p3-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 4; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(56px, 6.5vw, 96px) clamp(20px, 4.5vw, 64px); background: #F5F2EA; border-top: 1px solid #DDD6C6">
-<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: space-between; gap: 16px 64px">
-<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">02 · Naar keuze</p>
-<h2 id="p3-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(44px, 7vw, 104px); line-height: 1; letter-spacing: 0.01em; text-wrap: balance">Na de aankoop.</h2>
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: clamp(21px, 2vw, 28px); line-height: 1.25; max-width: 24em; text-wrap: balance">Jij kiest waar Deckshare je bij helpt.</p>
-<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Scrol verder</p>
-</div>
-<p aria-hidden="true" style="margin: 0; flex: 0 0 auto; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(96px, 18vw, 280px); line-height: 0.85; letter-spacing: 0.02em; color: #B7D3C2">02</p>
-</div>
-</section>
-</div>
-
-<div class="ds-fx" style="height: var(--track-h)">
-<section id="p4" aria-labelledby="p4-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 5; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); background: #FFFFFF; border-top: 1px solid #DDD6C6">
-<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
-<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Voorzieningen en vaste dagen</p>
-<h2 id="p4-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.08; text-wrap: balance">Waarbij Deckshare je kan ondersteunen.</h2>
-<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 32em">Het is een keuze: je kunt het ook zelf regelen.</p>
-<a href="/ondersteuning/" class="ds-btn" style="align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 52px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
-<p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; line-height: 1.3; color: #5B645D"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: #5B645D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg>Of scrol verder voor het overzicht</p>
-</div>
-<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 36px); background: #F5F2EA; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; gap: 22px">
-<div style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD6C6">
-<h3 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 20px; line-height: 1.25">Voorzieningen</h3>
-<p style="margin: 0; font-size: 16px; line-height: 1.45">Deckshare zoekt de juiste partijen voor de ligplaats, de verzekering en het onderhoud, en regelt de afhandeling.</p>
-<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column"><li style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 9px 0; border-bottom: 1px solid #DDD6C6"><span style="font-size: 16px; font-weight: 700">Ligplaats</span><span style="display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Partij zoeken</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Afhandeling</span></span></li><li style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 9px 0; border-bottom: 1px solid #DDD6C6"><span style="font-size: 16px; font-weight: 700">Verzekering</span><span style="display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Partij zoeken</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Afhandeling</span></span></li><li style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 9px 0"><span style="font-size: 16px; font-weight: 700">Onderhoud</span><span style="display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Partij zoeken</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Afhandeling</span></span></li></ul>
-</div>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<h3 style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 20px; line-height: 1.25">Vaste dagen</h3>
-<p style="margin: 0; font-size: 16px; line-height: 1.45">Deckshare maakt het vaarschema met ieders vaste dagen en houdt de reserveringen voor jullie bij.</p>
-<p style="margin: 0; font-size: 15px; line-height: 1.3; color: #5B645D">Voorbeeld met een halve boot</p>
-<svg viewBox="0 0 137 25" aria-hidden="true" style="display: block; width: 100%; max-width: 274px; height: auto"><path d="M0 0h11v11h-11zM14 0h11v11h-11zM28 0h11v11h-11zM42 0h11v11h-11zM56 0h11v11h-11zM70 0h11v11h-11zM84 0h11v11h-11zM98 0h11v11h-11zM112 0h11v11h-11zM126 0h11v11h-11z" style="fill: #1E3A2F; stroke: none"></path><path d="M0.75 14.75h9.5v9.5h-9.5zM14.75 14.75h9.5v9.5h-9.5zM28.75 14.75h9.5v9.5h-9.5zM42.75 14.75h9.5v9.5h-9.5zM56.75 14.75h9.5v9.5h-9.5zM70.75 14.75h9.5v9.5h-9.5zM84.75 14.75h9.5v9.5h-9.5zM98.75 14.75h9.5v9.5h-9.5zM112.75 14.75h9.5v9.5h-9.5zM126.75 14.75h9.5v9.5h-9.5z" style="fill: #FFFFFF; stroke: #1E3A2F; stroke-width: 1.5"></path></svg>
-<div style="display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; line-height: 1.3"><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; border-radius: 3px; background: #1E3A2F"></span>Jouw vaste dagen</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="flex-shrink: 0; width: 14px; height: 14px; box-sizing: border-box; border-radius: 3px; border: 1.5px solid #1E3A2F; background: #FFFFFF"></span>Die van je mede-eigenaar</span></div>
-</div>
-</div>
-</div>
-</section>
-</div>
-
-<div class="ds-fx-last" style="height: var(--track-h-last)">
-<section id="p5" aria-labelledby="p5-titel" style="position: var(--stack-pos); top: var(--panel-top); scroll-margin-top: 81px; z-index: 6; min-height: var(--panel-h); box-sizing: border-box; display: flex; align-items: center; padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px); background: #F5F2EA; border-top: 1px solid #DDD6C6">
-<div style="width: 100%; max-width: 1152px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
-<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #5B645D">Meedoen</p>
-<h2 id="p5-titel" style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.08; text-wrap: balance">Doe mee met Deckshare.</h2>
-<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; max-width: 32em">Meld je aan als je samen met anderen een boot wilt kopen. Ik bel je binnen twee werkdagen terug.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 14px">
-<a href="/bootdelen/" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 56px; padding: 0 26px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; text-decoration: none; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex)">Meld je aan</a>
-<a href="/dit-is-deckshare/#samenbrengen" class="ds-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box; height: 56px; padding: 0 22px; border: 1.5px solid #1E3A2F; border-radius: 4px; background: transparent; color: #1E3A2F; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; flex: var(--btn-flex); text-decoration: none"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #1E3A2F; stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>Meer informatie</a>
-</div>
-</div>
-<div style="flex: 1 1 420px; min-width: 0; box-sizing: border-box; padding: clamp(24px, 3vw, 36px); background: #FFFFFF; border: 1px solid #DDD6C6; border-radius: 4px; display: flex; flex-direction: column; gap: 14px">
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5B645D">Vragen of twijfels?</p>
-<p style="margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55">Bel of app me direct.</p>
-<p style="margin: 0; font-family: 'Saira', Arial, sans-serif; font-stretch: 125%; font-weight: 600; font-size: 26px; line-height: 1.1; letter-spacing: 0.04em; font-variant-numeric: tabular-nums"><a href="tel:+31612809664" style="text-decoration: none">06 12 80 96 64</a></p>
-</div>
-</div>
-</section>
-</div>
+<p class="uf-call">Vragen of twijfels? Bel of app me direct: <a href="tel:+31612809664">06 12 80 96 64</a></p>
 
 </main>
 
@@ -374,6 +653,207 @@ dialog.ds-dlg::backdrop { background: rgba(30, 58, 47, 0.35); }
   document.querySelectorAll('dialog.ds-dlg').forEach(function (d) {
     d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
   });
+})();
+
+(function () {
+  // Uitleg: een dia speelt af zodra hij op zijn plek staat en blijft dan staan. Bij "Verder" schuift hij omhoog weg
+  // en komt de volgende van onderen binnen; bij "Vorige" andersom.
+  var root = document.getElementById('uf');
+  if (!root) return;
+  var base = root.getAttribute('data-base') || '';
+  var stage = root.querySelector('.uf-stage');
+  var scenes = Array.prototype.slice.call(stage.querySelectorAll('.uf-scene'));
+  var n = scenes.length;
+  var SCHUIF = 650;
+  var durs = scenes.map(function (s) { return parseFloat(s.getAttribute('data-dur')) * 1000; });
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!stage.getAnimations) reduce = true;
+
+  // Dia 1: een vaarseizoen als kalender, met een handvol vaardagen (voorbeeld).
+  var MAANDEN = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+  var JAAR = 2027;
+  var VAREN = ['5-15', '6-5', '6-26', '7-17', '8-7', '8-21', '9-11'];
+  var jaar = document.getElementById('uf-year');
+  MAANDEN.forEach(function (naam, m) {
+    var blok = document.createElement('div');
+    blok.className = 'uf-month';
+    blok.style.setProperty('--d', (2.6 + m * 0.07).toFixed(2) + 's');
+    var dagen = new Date(JAAR, m + 1, 0).getDate();
+    var start = (new Date(JAAR, m, 1).getDay() + 6) % 7;
+    var html = '<b>' + naam + '</b><div class="uf-days">';
+    for (var i = 0; i < start; i++) html += '<i class="x"></i>';
+    for (var d = 1; d <= dagen; d++) {
+      var v = VAREN.indexOf((m + 1) + '-' + d);
+      html += v >= 0 ? '<i class="v" style="--d:' + (0.6 + v * 0.2).toFixed(2) + 's"></i>' : '<i></i>';
+    }
+    blok.innerHTML = html + '</div>';
+    jaar.appendChild(blok);
+  });
+
+  // Dia 5: vier weken, om en om die van jou en die van je mede-eigenaar.
+  var vakken = document.getElementById('uf-cells');
+  for (var r = 0; r < 4; r++) {
+    for (var c = 0; c < 7; c++) {
+      var vak = document.createElement('i');
+      vak.className = r % 2 === 0 ? 'y' : 'm';
+      vak.style.setProperty('--d', (0.7 + (r * 7 + c) * 0.035).toFixed(3) + 's');
+      vakken.appendChild(vak);
+    }
+  }
+
+  stage.querySelectorAll('[data-href]').forEach(function (a) { a.href = base + a.getAttribute('data-href'); });
+
+  // Stappenbalk onderin
+  var chap = document.getElementById('uf-chap');
+  var fills = [];
+  var knoppen = [];
+  scenes.forEach(function (s, i) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = '<span class="uf-trk"><span class="uf-fil"></span></span><span class="uf-lbl"></span>';
+    b.querySelector('.uf-lbl').textContent = s.getAttribute('data-kort') || s.getAttribute('data-name');
+    b.setAttribute('aria-label', 'Stap ' + (i + 1) + ': ' + s.getAttribute('data-name').replace(/­/g, ''));
+    b.addEventListener('click', function () { ga(i); });
+    li.appendChild(b);
+    chap.appendChild(li);
+    fills.push(b.querySelector('.uf-fil'));
+    knoppen.push(b);
+  });
+  var prev = document.getElementById('uf-prev');
+  var teller = document.getElementById('uf-count');
+
+  // Alle CSS-animaties stilzetten; het script zet de tijd, zodat elke dia opnieuw afspeelt als hij binnenkomt.
+  var anims = scenes.map(function (s) {
+    if (reduce) return [];
+    var lijst = s.getAnimations({ subtree: true });
+    lijst.forEach(function (a) { a.pause(); });
+    return lijst;
+  });
+  var gezet = scenes.map(function () { return -1; });
+
+  var cur = 0;
+  var uit = -1;
+  var richting = 1;
+  var local = 0;
+  var schuift = false;
+  var gestart = false;
+  var vorige = null;
+  var laatsteFrame = 0;
+  var klem = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
+  var zacht = function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+
+  function teken() {
+    var p = schuift ? zacht(klem((local + SCHUIF) / SCHUIF, 0, 1)) : 1;
+    for (var i = 0; i < n; i++) {
+      var t = i === cur ? klem(local, 0, durs[i]) : (i === uit ? durs[i] : 0);
+      if (t !== gezet[i]) {
+        for (var k = 0; k < anims[i].length; k++) anims[i][k].currentTime = t;
+        gezet[i] = t;
+      }
+      var y = null;
+      if (i === cur) y = (1 - p) * 100 * richting;
+      else if (i === uit && p < 1) y = -p * 100 * richting;
+      var s = scenes[i].style;
+      s.transform = y ? 'translateY(' + y.toFixed(3) + '%)' : '';
+      s.opacity = y === null ? 0 : 1;
+      s.visibility = y === null ? 'hidden' : 'visible';
+      fills[i].style.transform = 'scaleX(' + (i < cur ? 1 : i === cur ? klem(local / durs[i], 0, 1) : 0).toFixed(4) + ')';
+    }
+    if (p >= 1) uit = -1;
+  }
+
+  function balkBij() {
+    stage.setAttribute('data-s', cur);
+    scenes.forEach(function (s, i) { s.setAttribute('aria-hidden', i === cur ? 'false' : 'true'); });
+    knoppen.forEach(function (b, i) { if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+    teller.textContent = (cur + 1) + ' / ' + n;
+    prev.disabled = cur === 0;
+  }
+
+  // Tekent de browser geen frames (zuinige modus, sommige app-browsers), zet de dia dan direct op zijn plek en in rust.
+  function waakhond() {
+    setTimeout(function () {
+      if (performance.now() - laatsteFrame > 400 && local < durs[cur]) {
+        local = durs[cur];
+        schuift = false;
+        uit = -1;
+        teken();
+      }
+    }, 900);
+  }
+
+  function ga(i) {
+    if (i < 0 || i >= n || i === cur) return;
+    var focusWeg = scenes[cur].contains(document.activeElement);
+    richting = i > cur ? 1 : -1;
+    uit = reduce ? -1 : cur;
+    cur = i;
+    schuift = !reduce;
+    local = reduce ? durs[i] : -SCHUIF;
+    gestart = true;
+    balkBij();
+    teken();
+    if (focusWeg) stage.focus({ preventScroll: true });
+    waakhond();
+  }
+
+  function tik(nu) {
+    laatsteFrame = performance.now();
+    var dt = vorige === null ? 0 : Math.min(100, nu - vorige);
+    vorige = nu;
+    if (gestart && local < durs[cur]) { local += dt; teken(); }
+    requestAnimationFrame(tik);
+  }
+
+  stage.addEventListener('click', function (e) {
+    if (e.target.closest('.uf-go')) ga(cur + 1);
+    else if (e.target.closest('.uf-again')) ga(0);
+    else if (e.target.closest('.uf-info')) {
+      // Na "Meer informatie" brengt "Terug naar de uitleg" (/#uitleg) je terug bij deze dia.
+      try { sessionStorage.setItem('uf-stap', String(cur)); } catch (err) {}
+    }
+  });
+  prev.addEventListener('click', function () { ga(cur - 1); });
+  stage.addEventListener('keydown', function (e) {
+    if (e.target !== stage) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); ga(cur + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); ga(cur - 1); }
+  });
+
+  var terug = null;
+  try {
+    if (location.hash === '#uitleg') terug = parseInt(sessionStorage.getItem('uf-stap'), 10);
+    sessionStorage.removeItem('uf-stap');
+  } catch (err) {}
+
+  // #s1 … #s7 opent een dia in rust.
+  var h = /^#s([1-7])$/.exec(location.hash);
+  if (h) {
+    cur = Number(h[1]) - 1;
+    local = durs[cur];
+    var sec = root.closest('section');
+    if (sec) {
+      var marge = parseFloat(getComputedStyle(sec).scrollMarginTop) || 0;
+      window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - marge, behavior: 'instant' });
+    }
+  } else if (terug !== null && terug >= 0 && terug < n) {
+    cur = terug;
+    local = durs[cur];
+  } else if (reduce) local = durs[0];
+  balkBij();
+  teken();
+  requestAnimationFrame(tik);
+
+  // De eerste dia begint pas als hij in beeld is.
+  if (local < durs[cur]) {
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (items) {
+        if (items.some(function (it) { return it.isIntersecting; })) { gestart = true; io.disconnect(); waakhond(); }
+      }, { threshold: 0.4 });
+      io.observe(stage);
+    } else gestart = true;
+  }
 })();
 </script>
 <script data-goatcounter="https://deckshare.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
