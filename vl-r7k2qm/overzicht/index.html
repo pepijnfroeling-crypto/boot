@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alle vragen · Deckshare</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#F5F2EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Saira:wdth,wght@125,500;125,600&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground: #F5F2EA;
+  --surface: #FFFFFF;
+  --ink: #1E3A2F;
+  --ink-deep: #113728;
+  --muted: #5B645D;
+  --line: #DDD6C6;
+  --tint: #B7D3C2;
+  --display: 'Saira', 'Arial', sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
+a { color: var(--ink); }
+a:hover { color: var(--ink-deep); }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+.top { border-bottom: 1px solid var(--line); }
+.top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; }
+.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 64px 64px 48px; display: flex; flex-direction: column; gap: 28px; }
+.label { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15; }
+
+.list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 28px 32px; display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; }
+.q h2 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 22px; line-height: 1.25; }
+.ans { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 17px; }
+.ans b { display: inline-block; min-width: 5.5em; }
+.ans .to { color: var(--muted); }
+
+.btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 56px; padding: 10px 26px; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); text-decoration: none; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; transition: background-color 0.15s; }
+.btn:hover { background: var(--tint); color: var(--ink); }
+
+.foot { border-top: 1px solid var(--line); }
+.foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; font-size: 14px; color: var(--muted); }
+
+@media (max-width: 960px) {
+  .top-inner, .foot-inner { padding-left: 20px; padding-right: 20px; }
+  main { padding: 32px 20px 40px; }
+  .q { padding: 22px 20px; }
+  .btn { min-height: 54px; }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-inner"><span class="brand-name">Deckshare</span></div></header>
+
+<main>
+  <div>
+    <p class="label">Vragenlijst</p>
+    <h1>Alle vragen</h1>
+  </div>
+
+  <ol class="list">
+    <li class="q" id="v1">
+      <p class="label">Vraag 1</p>
+      <h2>Heb je een boot?</h2>
+      <ul class="ans">
+        <li><b>Ja</b> <span class="to">→ <a href="#v2">vraag 2</a></span></li>
+        <li><b>Nee</b> <span class="to">→ <a href="#v5">vraag 5</a></span></li>
+      </ul>
+    </li>
+    <li class="q" id="v2">
+      <p class="label">Vraag 2</p>
+      <h2>Zou je graag enige eigenaar zijn van de boot?</h2>
+      <ul class="ans">
+        <li><b>Ja</b> <span class="to">→ <a href="#v3">vraag 3</a></span></li>
+        <li><b>Nee</b> <span class="to">→ <a href="#v4">vraag 4</a></span></li>
+      </ul>
+    </li>
+    <li class="q" id="v3">
+      <p class="label">Vraag 3</p>
+      <h2>Leen je je boot liever uit aan een vaste groep of onbekende?</h2>
+      <ul class="ans">
+        <li><b>Vast</b> <span class="to">→ Ownerkant van sub shared owned</span></li>
+        <li><b>Onbekend</b> <span class="to">→ Onwerkant van rented ownership</span></li>
+      </ul>
+    </li>
+    <li class="q" id="v4">
+      <p class="label">Vraag 4</p>
+      <h2>Regel je graag het onderhoud, ligplek en stalling zelf?</h2>
+      <ul class="ans">
+        <li><b>Ja</b> <span class="to">→ Shared ownership</span></li>
+        <li><b>Nee</b> <span class="to">→ Managed shared ownership</span></li>
+      </ul>
+    </li>
+    <li class="q" id="v5">
+      <p class="label">Vraag 5</p>
+      <h2>Zou je graag met of zonder eigenaarschap varen?</h2>
+      <ul class="ans">
+        <li><b>Met</b> <span class="to">→ <a href="#v2">vraag 2</a></span></li>
+        <li><b>Zonder</b> <span class="to">→ <a href="#v6">vraag 6</a></span></li>
+      </ul>
+    </li>
+    <li class="q" id="v6">
+      <p class="label">Vraag 6</p>
+      <h2>Zou je graag een x aantal vaste vaardagen krijgen?</h2>
+      <ul class="ans">
+        <li><b>Ja</b> <span class="to">→ Abonnee kant van sub shared owned</span></li>
+        <li><b>Nee</b> <span class="to">→ Huurderskant van rented owned</span></li>
+      </ul>
+    </li>
+  </ol>
+
+  <a class="btn" href="../">Terug naar de vragenlijst</a>
+</main>
+
+<footer class="foot"><div class="foot-inner">Deckshare</div></footer>
+</body>
+</html>
