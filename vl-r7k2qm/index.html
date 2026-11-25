@@ -7,87 +7,63 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#F5F2EA">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='4' fill='%23F5F2EA' stroke='%231E3A2F' stroke-width='2'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%231E3A2F' stroke-width='3.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231E3A2F'/%3E%3Cpath d='M9 7.5H18C21.5 7.5 24 10 24 13.5V18.5C24 22 21.5 24.5 18 24.5H9Z' fill='none' stroke='%23F5F2EA' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Saira:wdth,wght@125,500;125,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Saira:wdth,wght@100..125,300..600&display=swap">
+<link rel="stylesheet" href="/huisstijl.css">
 <style>
-:root {
-  color-scheme: light;
-  --ground: #F5F2EA;
-  --surface: #FFFFFF;
-  --ink: #1E3A2F;
-  --ink-deep: #113728;
-  --muted: #5B645D;
-  --line: #DDD6C6;
-  --tint: #B7D3C2;
-  --field: #7A847C;
-  --display: 'Saira', 'Arial', sans-serif;
-  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
-}
-* { box-sizing: border-box; }
+/* Vragenlijst: een vraag tegelijk, zonder kader */
 [hidden] { display: none !important; }
-body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.55; }
-a { color: var(--ink); }
-:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+body { min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1; }
+.vragen { max-width: 640px; }
+.vraag { display: flex; flex-direction: column; gap: 28px; }
+.vraag .kicker { margin: 0; }
+.vraag h1:focus { outline: none; }
 
-.top { border-bottom: 1px solid var(--line); }
-.top-inner { max-width: 1280px; margin: 0 auto; padding: 18px 64px; }
-.brand-name { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; }
+.antwoorden { display: grid; gap: 12px; margin: 8px 0 0; padding: 0; list-style: none; }
+.antwoorden .knop { width: 100%; }
 
-main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 64px 64px 48px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 40px; display: flex; flex-direction: column; gap: 20px; }
-.label { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
-h1 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15; text-wrap: balance; }
-h1:focus { outline: none; }
+.uitkomst { margin-top: 12px; }
+.uitkomst .kicker { margin-bottom: 16px; }
+.pad { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 16px; color: var(--mos); }
+.pad b { color: var(--groen); }
 
-.answers { display: flex; flex-direction: column; gap: 12px; margin: 8px 0 0; padding: 0; list-style: none; }
-.btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 56px; padding: 10px 26px; border: 1.5px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background-color 0.15s; }
-.btn:hover { background: var(--tint); }
-.btn-all { margin-top: 24px; text-decoration: none; text-align: center; }
+.verder { display: flex; flex-wrap: wrap; gap: 4px 28px; }
+button.link { padding: 0; border: 0; background: none; color: var(--groen); font: inherit; cursor: pointer; }
 
-.result-box { border-top: 1.5px solid var(--ink); padding-top: 18px; }
-.path { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 16px; color: var(--muted); }
-.path b { color: var(--ink); }
+.alle { margin-top: clamp(56px, 7vw, 88px); }
 
-.nav { display: flex; gap: 16px; flex-wrap: wrap; }
-.link { padding: 10px 0; min-height: 44px; border: 0; background: none; color: var(--ink); font: 700 16px var(--body); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
-
-.foot { border-top: 1px solid var(--line); }
-.foot-inner { max-width: 1280px; margin: 0 auto; padding: 20px 64px; font-size: 14px; color: var(--muted); }
-
-@media (prefers-reduced-motion: no-preference) { .card { animation: in 0.2s ease; } }
+@media (prefers-reduced-motion: no-preference) { .vraag { animation: in .3s ease; } }
 @keyframes in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
-@media (max-width: 960px) {
-  .top-inner, .foot-inner { padding-left: 20px; padding-right: 20px; }
-  main { padding: 32px 20px 40px; }
-  .card { padding: 24px; }
-  .btn { min-height: 54px; }
-}
 </style>
 </head>
 <body>
-<header class="top"><div class="top-inner"><span class="brand-name">Deckshare</span></div></header>
+<header class="kop kop-licht"><div class="wrap"><span class="mark">Deckshare.</span></div></header>
 
-<main>
-  <div class="card" id="card" aria-live="polite">
-    <p class="label" id="step"></p>
-    <h1 id="title" tabindex="-1"></h1>
-    <ul class="answers" id="answers"></ul>
-    <div class="result-box" id="result" hidden>
-      <p class="label">Jouw antwoorden</p>
-      <ol class="path" id="path"></ol>
-    </div>
-    <div class="nav">
-      <button class="link" id="back" type="button" hidden>Vorige vraag</button>
-      <button class="link" id="restart" type="button" hidden>Opnieuw beginnen</button>
+<main class="opening">
+  <div class="wrap smal">
+    <div class="vragen">
+      <div class="vraag" id="card" aria-live="polite">
+        <p class="kicker" id="step"></p>
+        <h1 class="groot-zin" id="title" tabindex="-1"></h1>
+        <ul class="antwoorden" id="answers"></ul>
+        <div class="uitkomst" id="result" hidden>
+          <p class="kicker">Jouw antwoorden</p>
+          <ol class="pad" id="path"></ol>
+        </div>
+        <div class="verder">
+          <button class="link" id="back" type="button" hidden>Vorige vraag</button>
+          <button class="link" id="restart" type="button" hidden>Opnieuw beginnen</button>
+        </div>
+      </div>
+      <a class="knop alle" href="concepten/">Uitleg van de concepten</a>
     </div>
   </div>
-  <a class="btn btn-all" href="concepten/">Uitleg van de concepten</a>
 </main>
 
-<footer class="foot"><div class="foot-inner">Deckshare</div></footer>
+<div class="donker op-donker"><footer class="voet"><div class="wrap"><p class="groot">DECKSHARE.</p></div></footer></div>
 
 <script>
 // Vragenboom, overgenomen uit "Vragenboom concepten.png" in de vault.
@@ -116,7 +92,7 @@ function show(qid) {
     var li = document.createElement('li');
     var b = document.createElement('button');
     b.type = 'button';
-    b.className = 'btn';
+    b.className = 'knop';
     b.textContent = ans[0];
     b.addEventListener('click', function () {
       trail.push({ q: qid, answer: ans[0] });
